@@ -104,7 +104,10 @@
 <p>Each subsection is one part of the video: the idea, the dry run from the lesson, then the Go.</p>
 <hr>
 <h2 id="l1-two-pointers">L1. Two Pointers</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=KsSJ_Qrj5sc">L1. Two Pointers</a> (1:01:26)</li><li>Two indices walk an array or string. They may start at opposite ends or move in the same direction.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=KsSJ_Qrj5sc">L1. Two Pointers</a> (1:01:26)</li></ul>
+<p><strong>Definition:</strong> keep two indices over the same array or string. They can start at opposite ends and walk inward, or start together and move at different speeds. The goal is to replace a nested loop with one linear pass.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Pair two people whose scores add up to a target in a ranked list.</li><li>Trim extra spaces or duplicate photos from a sorted album without a second array.</li><li>Check whether a product SKU or license plate is a palindrome after stripping punctuation.</li><li>Size a shipping container: the two walls are the two pointers, and you always move the shorter one.</li></ul>
 <h3 id="1-two-sum-ii-sorted-array">1. Two Sum II — sorted array</h3>
 <p><code>numbers</code> is nondecreasing. Return <strong>1-based</strong> indices of a pair that sums to <code>target</code>.</p>
 <p>Dry run: <code>[2,7,11,15]</code>, target <code>9</code>.</p>
@@ -189,7 +192,10 @@
 <p><strong>Complexity:</strong> time O(n), extra space O(1).</p>
 <hr>
 <h2 id="l2-fast-and-slow-pointers">L2. Fast and Slow Pointers</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=pNRRdv90n68">L2. Fast and Slow Pointers</a> (49:10)</li><li>Slow takes one step, fast takes two. Meeting means a cycle. The same idea works on any deterministic “next state” function.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=pNRRdv90n68">L2. Fast and Slow Pointers</a> (49:10)</li></ul>
+<p><strong>Definition:</strong> two walkers share a path. Slow moves one step, fast moves two. If they ever stand on the same node, the path loops. Resetting one walker to the start finds where the loop begins. The same walk works on any “next state” function, not only linked lists.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Detect a circular ride-share route or a stuck retry loop in a job queue.</li><li>Find the middle page of a document when you cannot count the pages first.</li><li>Catch a process that keeps hashing a number back to itself (happy-number style).</li><li>Spot an infinite redirect chain: <code>A → B → C → A</code>.</li></ul>
 <h3 id="1-linked-list-cycle">1. Linked List Cycle</h3>
 <p>Example: <code>3 → 2 → 0 → -4</code> and <code>-4</code> points back to <code>2</code>. Compare <strong>pointers</strong>, not values.</p>
 <pre><code class="language-go">func HasCycle(head *ListNode) bool {
@@ -258,7 +264,10 @@ func nextHappy(n int) int {
 <p><strong>Complexity:</strong> time O(log n) per <code>nextHappy</code> step and O(1) states before a cycle, extra space O(1).</p>
 <hr>
 <h2 id="l3-sliding-window">L3. Sliding Window</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=x1ZUaf_Qhk0">L3. Sliding Window</a> (50:10)</li><li>A window is a contiguous slice. Add the entering value, drop the leaving value. Do not recompute from scratch.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=x1ZUaf_Qhk0">L3. Sliding Window</a> (50:10)</li></ul>
+<p><strong>Definition:</strong> a window is a contiguous slice of an array or string. Expand the right edge to include a new item, shrink the left edge when the window becomes invalid. Update a running sum or frequency instead of rescanning.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Last-7-day sales, last-k requests, or a moving average on a sensor stream.</li><li>Longest password or chat snippet with no repeated character.</li><li>Smallest time window in which a courier collects at least <code>target</code> parcels.</li><li>A checkout that only allows <code>k</code> distinct SKUs in one basket.</li></ul>
 <h3 id="1-maximum-sum-of-a-distinct-length-k-window-fixed">1. Maximum sum of a distinct length-<code>k</code> window (fixed)</h3>
 <p>Example: <code>[1,5,4,2,9,9,9]</code>, <code>k=3</code>.</p>
 <table><thead><tr><th>window</th><th>distinct?</th><th>sum</th></tr></thead><tbody><tr><td>1,5,4</td><td>yes</td><td>10</td></tr><tr><td>5,4,2</td><td>yes</td><td>11</td></tr><tr><td>4,2,9</td><td>yes</td><td>15</td></tr><tr><td>2,9,9</td><td>no</td><td>ignore</td></tr><tr><td>9,9,9</td><td>no</td><td>ignore</td></tr></tbody></table>
@@ -326,7 +335,10 @@ func nextHappy(n int) int {
 <p><strong>Complexity:</strong> time O(n), extra space O(1).</p>
 <hr>
 <h2 id="l4-prefix-sum">L4. Prefix Sum</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=y4jZhNPCItc">L4. Prefix Sum</a> (45:13)</li><li><code>prefix[j] - prefix[i-1]</code> is the sum of <code>nums[i..j]</code>.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=y4jZhNPCItc">L4. Prefix Sum</a> (45:13)</li></ul>
+<p><strong>Definition:</strong> store running totals so any range sum is one subtraction: <code>prefix[j] - prefix[i-1]</code>. Pair the running total with a map of earlier prefixes to count or detect subarrays.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Dashboard: “revenue from 1 March to 15 March” without summing every day again.</li><li>Find the hour when left-side and right-side traffic are equal (pivot index).</li><li>Count bank-statement windows whose net is exactly <code>k</code>.</li><li>Detect a stretch of transactions whose total is divisible by a batch size.</li></ul>
 <h3 id="1-build-the-prefix-and-answer-a-range">1. Build the prefix and answer a range</h3>
 <p><code>[1,2,3,4,5,6]</code> → <code>[1,3,6,10,15,21]</code>. Sum of indices <code>1..3</code> is <code>10 - 1 = 9</code>.</p>
 <pre><code class="language-go">func PrefixSums(nums []int) []int {
@@ -406,7 +418,10 @@ func RangeSum(prefix []int, left, right int) int {
 <p><strong>Complexity:</strong> time O(n), extra space O(n).</p>
 <hr>
 <h2 id="l5-merge-intervals">L5. Merge Intervals</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=SQak4ciLCN8">L5. Merge Intervals / Meeting Rooms</a> (41:07)</li><li>Sort by start. Overlap means <code>current.start &lt;= last.end</code>.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=SQak4ciLCN8">L5. Merge Intervals / Meeting Rooms</a> (41:07)</li></ul>
+<p><strong>Definition:</strong> each item is a <code>[start, end]</code> range. Sort by start, then merge or reject overlaps. Two ranges overlap when <code>current.start &lt;= last.end</code>.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Merge calendar blocks so “9–10” and “9:30–11” become one “9–11” busy slot.</li><li>Insert a new meeting into an already-sorted calendar.</li><li>One person cannot sit two interviews that overlap.</li><li>How many hospital beds or Zoom rooms you need at the busiest moment.</li></ul>
 <h3 id="1-merge-intervals">1. Merge intervals</h3>
 <p><code>[[1,3],[2,6],[8,10],[15,18]]</code> → <code>[[1,6],[8,10],[15,18]]</code>.</p>
 <p>Unsorted <code>[[1,4],[6,7],[3,5]]</code> must be sorted first → <code>[[1,5],[6,7]]</code>.</p>
@@ -471,7 +486,10 @@ func RangeSum(prefix []int, left, right int) int {
 <p>Meeting Rooms II is named in the video but not finished. The usual follow-up is a min-heap of end times: the heap size is the room count. <strong>Complexity:</strong> time O(n log n), extra space O(n).</p>
 <hr>
 <h2 id="l6-binary-search">L6. Binary Search</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=QmLHHDvAm-E">L6. Binary Search</a> (1:11:57)</li><li>Halve a <strong>monotonic</strong> search space. Always use <code>mid := left + (right-left)/2</code>.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=QmLHHDvAm-E">L6. Binary Search</a> (1:11:57)</li></ul>
+<p><strong>Definition:</strong> repeatedly halve a sorted or monotonic search space. Compare the middle value, then keep the half that can still contain the answer. The same idea searches a numeric range: “is capacity <code>mid</code> enough?”</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Jump to a word in a dictionary or a row in a sorted spreadsheet.</li><li>Look up a seat number in a cinema map that is filled row by row.</li><li>Find a song in a playlist that was rotated so the oldest track is no longer first.</li><li>Smallest truck capacity that still delivers every package within <code>D</code> days.</li></ul>
 <h3 id="1-classic-search">1. Classic search</h3>
 <p><code>[-1,0,3,5,9,12]</code>, target <code>9</code> → index <code>4</code>.</p>
 <pre><code class="language-go">func BinarySearch(nums []int, target int) int {

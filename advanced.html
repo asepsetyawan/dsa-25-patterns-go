@@ -103,7 +103,10 @@
       <h1 id="l20l25-trie-greedy-dp-backtracking-bits">L20–L25 Trie, Greedy, DP, Backtracking, Bits</h1>
 <hr>
 <h2 id="l20-trie">L20. Trie</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=63teUTGeXEE">L20. Trie</a> (43:36)</li><li>A prefix tree. Shared prefixes share nodes.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=63teUTGeXEE">L20. Trie</a> (43:36)</li></ul>
+<p><strong>Definition:</strong> a prefix tree. Each edge is one character. Words that share a prefix share the same path. A node’s <code>end</code> flag marks a complete word.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Phone keyboard autocomplete and search-as-you-type.</li><li>Spell check: walk the letters the user typed; missing child means “unknown word.”</li><li>IP or URL prefix routing.</li><li>Dictionary of product SKUs that share a brand prefix (<code>app</code>, <code>apple</code>, <code>apply</code>).</li></ul>
 <h3 id="1-insert">1. Insert</h3>
 <p>Walk one node per character. Create a child if missing. Mark <code>end</code> on the last character.</p>
 <p>Insert <code>&quot;apple&quot;</code>:</p>
@@ -145,7 +148,10 @@ func (t *Trie) StartsWith(prefix string) bool {
 <p><strong>Complexity:</strong> Insert / Search / StartsWith time O(L). Extra space for the trie is O(total characters inserted) after prefix sharing. Each call uses O(1) extra besides the tree.</p>
 <hr>
 <h2 id="l21-greedy">L21. Greedy</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=h1FFy13XPKE">L21. Greedy</a> (41:00)</li><li>A local best choice is also globally correct.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=h1FFy13XPKE">L21. Greedy</a> (41:00)</li></ul>
+<p><strong>Definition:</strong> take the locally best choice and never undo it. It is correct only when that local choice is also globally optimal — farthest reach, earliest finish, unique start that can complete a cycle.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Can a frog (or a delivery hop) reach the last stone if each stone says how far you may jump?</li><li>Fewest refuels or fewest hops to cross a highway.</li><li>Unique gas-station start that lets a truck complete a circular route.</li><li>Interval scheduling: always take the meeting that finishes first.</li></ul>
 <h3 id="1-jump-game-i">1. Jump Game I</h3>
 <p>Can you reach the last index? Track the farthest index reachable so far. If <code>i</code> walks past that, you are stuck.</p>
 <p><code>[2,3,1,1,4]</code> → true. <code>[3,2,1,0,4]</code> → false (stuck at the <code>0</code>).</p>
@@ -201,7 +207,10 @@ func (t *Trie) StartsWith(prefix string) bool {
 <p><strong>Complexity:</strong> time O(n), extra space O(1).</p>
 <hr>
 <h2 id="l22-dynamic-programming-house-robber">L22. Dynamic Programming — House Robber</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=DjJ3tJ8xtWk">L22. DP / House Robber</a> (45:38)</li><li>Same recurrence, three implementations.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=DjJ3tJ8xtWk">L22. DP / House Robber</a> (45:38)</li></ul>
+<p><strong>Definition:</strong> solve a big problem from overlapping smaller ones. Store each sub-answer (memo or table) so you never recompute it. House robber: you may not take two adjacent houses, so <code>dp[i] = max(skip, take + dp[i-2])</code>.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>A thief (or a planner) picking non-adjacent houses / ad slots / work shifts.</li><li>Any “choose or skip this item, but yesterday’s choice blocks today.”</li><li>Same three styles show up in knapsack, climb-stairs, and decode-ways.</li></ul>
 <p>You cannot rob two adjacent houses:</p>
 <p><code>dp[i] = max(dp[i-1], dp[i-2] + nums[i])</code></p>
 <p><code>[1,2,3,1]</code> → <code>4</code> (<code>1+3</code>). <code>[2,7,9,3,1]</code> → <code>12</code> (<code>2+9+1</code>).</p>
@@ -271,7 +280,10 @@ func (t *Trie) StartsWith(prefix string) bool {
 <p>All three are O(n) time. Extra space is O(n), O(n), then O(1).</p>
 <hr>
 <h2 id="l23-minimum-path-sum">L23. Minimum Path Sum</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=XKjlZwaWYBo">L23. Minimum Path Sum</a> (33:14)</li><li>Grid, move only right or down.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=XKjlZwaWYBo">L23. Minimum Path Sum</a> (33:14)</li></ul>
+<p><strong>Definition:</strong> a grid DP. From each cell you may move only right or down. The cheapest way to a cell is <code>cell + min(from above, from left)</code>.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Cheapest walk through a city grid of tolls.</li><li>Minimum time for a robot that can only move east or south on a warehouse floor.</li><li>Least-cost path in a spreadsheet of cell costs.</li></ul>
 <p><code>dp[r][c] = grid[r][c] + min(from_above, from_left)</code></p>
 <pre><code class="language-text">1 3 1
 1 5 1   path 1→3→1→1→1 = 7
@@ -339,7 +351,10 @@ func (t *Trie) StartsWith(prefix string) bool {
 <p><strong>Complexity:</strong> time O(rows × cols), extra space O(cols).</p>
 <hr>
 <h2 id="l24-backtracking">L24. Backtracking</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=NWrnHdzwHig">L24. Backtracking</a> (36:26)</li><li>Choose, recurse, undo (<code>path = path[:len-1]</code>, unmark visited).</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=NWrnHdzwHig">L24. Backtracking</a> (36:26)</li></ul>
+<p><strong>Definition:</strong> build a partial answer, try a choice, recurse, then undo the choice if it fails (<code>path = path[:len-1]</code>, unmark visited). Use it when you must enumerate or search a decision tree.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Every possible pizza topping combo (subsets).</li><li>A rat (or a warehouse robot) finding every open path through a maze.</li><li>Seat people, place queens, or fill a Sudoku: try, check, undo.</li><li>Generate all passwords that match a pattern.</li></ul>
 <h3 id="1-subset-generation">1. Subset generation</h3>
 <p>For each number: skip it, or take it. 2^n subsets.</p>
 <p><code>[1,2,3]</code> → <code>[], [3], [2], [2,3], [1], [1,3], [1,2], [1,2,3]</code> (order depends on skip-first vs take-first).</p>
@@ -409,7 +424,10 @@ func (t *Trie) StartsWith(prefix string) bool {
 <p><strong>Complexity:</strong> time O(4^(n²)) in the worst open grid, extra space O(n²) for <code>visited</code> plus O(n²) path depth.</p>
 <hr>
 <h2 id="l25-bitwise-operations">L25. Bitwise Operations</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=HGhvbhxGXmY">L25. Bitwise Operations</a> (33:26)</li><li>Index <code>i</code> is 0-based from the <strong>least significant</strong> bit.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=HGhvbhxGXmY">L25. Bitwise Operations</a> (33:26)</li></ul>
+<p><strong>Definition:</strong> work on the binary digits of an integer. AND / OR / XOR / NOT and shifts replace loops over flags. Index <code>i</code> is 0-based from the least significant bit.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Feature flags packed into one integer (<code>bit 0 = dark mode</code>).</li><li>Power-of-two checks for buffer sizes and memory pages.</li><li>XOR finds the one package id that did not come in a pair.</li><li>Count how many permission bits are on, or turn one bit on/off.</li></ul>
 <table><thead><tr><th>Operator</th><th>Go</th><th>Meaning</th></tr></thead><tbody><tr><td>AND</td><td><code>a &amp; b</code></td><td>bits set in both</td></tr><tr><td>OR</td><td>`a \</td><td>b`</td><td>bits set in either</td></tr><tr><td>XOR</td><td><code>a ^ b</code></td><td>bits that differ</td></tr><tr><td>NOT</td><td><code>^a</code></td><td>flip all bits</td></tr><tr><td>left shift</td><td><code>a &lt;&lt; k</code></td><td>multiply by 2^k</td></tr><tr><td>right shift</td><td><code>a &gt;&gt; k</code></td><td>divide by 2^k (sign-extends signed ints)</td></tr></tbody></table>
 <p><code>n &amp; (n-1)</code> clears the lowest set bit. <code>n &amp; 1</code> is the lowest bit.</p>
 <h3 id="1-power-of-two">1. Power of two</h3>

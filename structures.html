@@ -104,6 +104,9 @@
 <hr>
 <h2 id="l7-all-sorting-algorithms">L7. All Sorting Algorithms</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=-X-liHnd_LA">L7. All Sorting Algorithms</a> (1:07:21)</li><li>The lesson implements the sorts themselves. Code is in <code>l07_sorting.go</code>.</li></ul>
+<p><strong>Definition:</strong> rearrange values into order. Simple sorts (bubble, selection, insertion) repeatedly fix the next position. Merge and quick divide the work; heap sort uses a heap.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Rank exam scores, prices, or log timestamps before you search or merge them.</li><li>Insertion sort is what people do when they insert one new card into a sorted hand.</li><li>Merge sort is how you combine two already-sorted customer lists.</li><li>Quick sort is the usual in-memory sort when you can pick a pivot.</li></ul>
 <table><thead><tr><th>Sort</th><th>Best</th><th>Average</th><th>Worst</th><th>Extra space</th><th>Stable?</th></tr></thead><tbody><tr><td>Bubble</td><td>O(n) with swap flag</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>yes</td></tr><tr><td>Selection</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>no</td></tr><tr><td>Insertion</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>yes</td></tr><tr><td>Merge</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td><td>yes if <code>&lt;=</code></td></tr><tr><td>Quick</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n²)</td><td>O(log n) stack</td><td>no</td></tr></tbody></table>
 <h3 id="1-bubble-sort">1. Bubble sort</h3>
 <p>Walk adjacent pairs. After pass <code>i</code>, the largest remaining value is at the end. If a pass makes no swaps, stop.</p>
@@ -216,7 +219,10 @@ func lomutoPartition(nums []int, lo, hi int) int {
 <p><strong>Complexity:</strong> time O(n log n) average, O(n²) worst (sorted input with this pivot). Extra space O(log n) recursion, O(n) worst.</p>
 <hr>
 <h2 id="l8-hash-maps">L8. Hash Maps</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=gl2lg6HnB6E">L8. HashMaps</a> (52:29)</li><li>Hash the key, map it to a bucket, walk the chain. Same key updates; different keys that collide share a bucket.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=gl2lg6HnB6E">L8. HashMaps</a> (52:29)</li></ul>
+<p><strong>Definition:</strong> a key-value table. Hash the key to a bucket index, then walk that bucket’s chain. The same key updates its value; different keys that land in the same bucket sit together.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Phone book, session store, or “have I seen this user id?”</li><li>Count how often each product appears in an order file.</li><li>Match a login pattern (<code>abba</code>) to words (<code>dog cat cat dog</code>).</li><li>Group anagrams: <code>eat</code>, <code>tea</code>, and <code>ate</code> share one pantry shelf.</li></ul>
 <h3 id="1-internal-working-separate-chaining">1. Internal working — separate chaining</h3>
 <p>Video example: <code>John→25</code>, <code>Tom→30</code>, then update <code>John→40</code>.</p>
 <pre><code class="language-go">type ChainHashMap struct {
@@ -319,7 +325,10 @@ func (m *ChainHashMap) Put(key, value string) {
 <p><strong>Complexity:</strong> time O(T) where T is the total number of letters. Extra space O(T) for the groups.</p>
 <hr>
 <h2 id="l9-stacks">L9. Stacks</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=KhJD99--Sj4">L9. Stacks</a> (45:21)</li><li>LIFO. Use it for nesting, undo, or “nearest greater to the right”.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=KhJD99--Sj4">L9. Stacks</a> (45:21)</li></ul>
+<p><strong>Definition:</strong> last-in, first-out. You only add or remove from the top. That matches nested work, undo, and “the nearest larger value still waiting on the right.”</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Browser Back, editor Undo, plate stacks in a canteen.</li><li>Check that every <code>(</code>, <code>[</code>, <code>{</code> in a config file has a matching closer.</li><li>Next warmer day: for each temperature, the first later day that is hotter.</li><li>Resolve <code>..</code> in a file path: <code>/home/user/docs/../pictures</code> → <code>/home/user/pictures</code>.</li></ul>
 <h3 id="1-valid-parentheses">1. Valid parentheses</h3>
 <p>Push an opener. A closer must match the top. The stack must be empty at the end.</p>
 <pre><code class="language-go">func IsValidParentheses(s string) bool {
@@ -382,7 +391,10 @@ func (m *ChainHashMap) Put(key, value string) {
 <p><strong>Complexity:</strong> time O(n), extra space O(n).</p>
 <hr>
 <h2 id="l10-queue">L10. Queue</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=JA5fN1VxIW4">L10. Queue &amp; Types</a> (36:41)</li><li>FIFO. Variants: simple, circular, deque, priority queue.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=JA5fN1VxIW4">L10. Queue &amp; Types</a> (36:41)</li></ul>
+<p><strong>Definition:</strong> first-in, first-out. New work joins the back; the next job leaves the front. Variants: circular buffer, deque, priority queue.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Ticket counter, printer queue, or a support inbox.</li><li>Two stacks can fake a queue when your language has no built-in one.</li><li>Walk a company org chart level by level (everyone on floor 3 before floor 4).</li><li>Keep the k best scores with a small heap acting as a priority queue.</li></ul>
 <h3 id="1-queue-using-two-stacks">1. Queue using two stacks</h3>
 <p>Push onto <code>in</code>. Pop/peek from <code>out</code>. Transfer <code>in → out</code> only when <code>out</code> is empty, so older values stay in front.</p>
 <p>Sequence: push <code>10,11,12</code>, pop <code>10</code>, then later push <code>14</code>.</p>
@@ -452,7 +464,10 @@ func (q *MyQueue) Pop() int {
 <p><strong>Complexity:</strong> time O(n log k), extra space O(k).</p>
 <hr>
 <h2 id="l11-l13-heap-and-top-k">L11 &amp; L13. Heap and Top-K</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=UCQ7QQZLbvU">L11 &amp; L13. Heap / Top K</a> (37:53)</li><li>A heap is a complete binary tree stored in an array.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=UCQ7QQZLbvU">L11 &amp; L13. Heap / Top K</a> (37:53)</li></ul>
+<p><strong>Definition:</strong> a complete binary tree stored in an array. In a min-heap the parent is never larger than its children, so the root is always the current minimum. Insert heap-ups; remove-root heap-downs.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Always serve the most urgent ticket or the cheapest fare first.</li><li>Top 10 songs, top k error codes, kth smallest price in a spreadsheet.</li><li>Running median of live scores with a small max-heap and a small min-heap.</li><li>The frontier of Dijkstra and k-way merge is a heap.</li></ul>
 <p>Index math: left <code>2*i+1</code>, right <code>2*i+2</code>, parent <code>(i-1)/2</code>.</p>
 <h3 id="1-heap-up-insert-and-heap-down-remove-root">1. Heap-up (insert) and heap-down (remove root)</h3>
 <p>Video insert: push <code>2</code> into a min-heap <code>[1,3,6,5,9,8]</code> and swap it toward the root until the parent is smaller.</p>
@@ -525,7 +540,10 @@ func (h *IntMinHeap) heapDown(i int) {
 <p><strong>Complexity:</strong> time O(r c log k), extra space O(k). <code>r</code> and <code>c</code> are the matrix dimensions.</p>
 <hr>
 <h2 id="l12-k-way-merge">L12. K-way Merge</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=ndjnm6s9ZDE">L12. K-way Merge</a> (43:40)</li><li>Each source is already sorted. Only the current head of each source can be the next global minimum.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=ndjnm6s9ZDE">L12. K-way Merge</a> (43:40)</li></ul>
+<p><strong>Definition:</strong> several sources are already sorted. A min-heap holds one “next” item from each source. Pop the global smallest, then push that source’s following item.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Merge sorted logs from many servers into one timeline.</li><li>Combine k sorted customer lists without concatenating and re-sorting.</li><li>First k cheapest hotel + flight pairs from two sorted price lists.</li><li>External sort: merge sorted runs that no longer fit in memory.</li></ul>
 <h3 id="1-merge-two-sorted-arrays">1. Merge two sorted arrays</h3>
 <p><code>[1,2,3]</code> and <code>[2,4,5]</code> → <code>[1,2,2,3,4,5]</code>. Two pointers, take the smaller head.</p>
 <pre><code class="language-go">func MergeTwoSorted(a, b []int) []int {

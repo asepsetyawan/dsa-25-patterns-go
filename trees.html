@@ -104,7 +104,10 @@
 <p>The creator’s written “25 patterns” list also names Union Find as pattern 19. In this playlist, L19 is topological sort.</p>
 <hr>
 <h2 id="l14-trees-and-traversals">L14. Trees and Traversals</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=SsgqcCmBkJA">L14. Trees</a> (48:10)</li><li>A tree is a connected acyclic graph with one root. Binary tree: at most two children. BST: left &lt; node &lt; right.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=SsgqcCmBkJA">L14. Trees</a> (48:10)</li></ul>
+<p><strong>Definition:</strong> a connected acyclic graph with one root. Each node has children; a binary tree allows at most two. A BST keeps <code>left &lt; node &lt; right</code>. Walks: inorder (left, node, right), preorder (node, left, right), postorder (left, right, node).</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>File system folders, HTML DOM, org chart, or a family tree.</li><li>Inorder on a BST prints employees by salary.</li><li>Preorder clones or serializes a menu tree.</li><li>Postorder deletes a folder only after its files are gone.</li><li>Tree height is how many manager layers sit above a leaf employee.</li></ul>
 <p>Use this tree for the walk-throughs:</p>
 <pre><code class="language-text">    1
    / \
@@ -192,7 +195,10 @@
 <p><strong>Complexity:</strong> time O(n), extra space O(h) recursion.</p>
 <hr>
 <h2 id="l15-dfs-on-trees">L15. DFS on Trees</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=9oAECTcceD4">L15. DFS</a> (51:44)</li><li>Go as deep as possible, then backtrack. Each problem is “recurse on children, then decide”.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=9oAECTcceD4">L15. DFS</a> (51:44)</li></ul>
+<p><strong>Definition:</strong> go as deep as one branch allows, then backtrack. Recurse on children, then decide at the parent. On a tree you often do not need a visited set.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Mirror a left-hand / right-hand warehouse layout (invert the tree).</li><li>Sum only the left-side leaf rooms of a building.</li><li>Does any root-to-leaf budget path spend exactly <code>target</code>?</li><li>Is the org chart height-balanced, or is one team much deeper than the other?</li></ul>
 <h3 id="1-invert-binary-tree">1. Invert binary tree</h3>
 <p>Swap every left/right pair.</p>
 <pre><code class="language-text">    4               4
@@ -260,7 +266,10 @@
 <p><strong>Complexity:</strong> time O(n), extra space O(h) recursion.</p>
 <hr>
 <h2 id="l16-bfs-on-trees">L16. BFS on Trees</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=AcPSaITm-M8">L16. BFS</a> (34:24)</li><li>Queue + “process exactly the current level size”.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=AcPSaITm-M8">L16. BFS</a> (34:24)</li></ul>
+<p><strong>Definition:</strong> visit a tree or graph level by level with a queue. Process exactly the nodes that are already in the queue before you add their children. The first time you reach a leaf is the shortest depth.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Print an org chart floor by floor, or zigzag a seating chart left-right then right-left.</li><li>Shortest number of hops from the CEO to the first individual contributor.</li><li>Which storey of a building has the largest total salary?</li><li>Shortest unweighted path: fewest flights, fewest subway stops.</li></ul>
 <h3 id="1-level-order">1. Level order</h3>
 <p>Same as L10. Tree <code>3 / 9 20 / 15 7</code> → <code>[[3],[9,20],[15,7]]</code>.</p>
 <p><strong>Complexity:</strong> time O(n), extra space O(w) for the queue plus O(n) for the output.</p>
@@ -310,7 +319,10 @@
 <p><strong>Complexity:</strong> time O(n), extra space O(w) for the queue.</p>
 <hr>
 <h2 id="l17-graphs">L17. Graphs</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=wEmaD49evoM">L17. Graph Representation</a> (56:34)</li><li>Directed vs undirected, weighted vs unweighted. A grid is a graph whose neighbors are adjacent cells.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=wEmaD49evoM">L17. Graph Representation</a> (56:34)</li></ul>
+<p><strong>Definition:</strong> a set of nodes plus edges. Directed or undirected, weighted or not. Store edges as an <code>n × n</code> matrix (dense) or as an adjacency list (sparse). A grid is a graph whose neighbors are the four adjacent cells.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Roads, social follows, package dependencies, or pixels in a photo.</li><li>Flood fill: the paint-bucket tool recolors every connected pixel of the same color.</li><li>Rotting oranges: infection or warehouse spoilage spreading minute by minute.</li><li>Matrix if you ask “is there a road from A to B?” in O(1). List if each city has only a few roads.</li></ul>
 <h3 id="1-adjacency-matrix">1. Adjacency matrix</h3>
 <p><code>n x n</code>. <code>m[u][v] = weight</code> (or 1). O(1) edge test, O(n²) space. Good for dense graphs.</p>
 <pre><code class="language-go">func AdjMatrix(n int, edges [][]int, undirected bool) [][]int {
@@ -383,7 +395,10 @@
 <p><strong>Complexity:</strong> time O(rows × cols), extra space O(rows × cols) for the queue.</p>
 <hr>
 <h2 id="l18-dijkstra">L18. Dijkstra</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=H0zJo07uo54">L18. Dijkstra</a> (35:12)</li><li>Shortest path from one source on a graph with <strong>non-negative</strong> weights. Output is a distance array.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=H0zJo07uo54">L18. Dijkstra</a> (35:12)</li></ul>
+<p><strong>Definition:</strong> shortest path from one source on a graph whose edge weights are <strong>non-negative</strong>. Grow a frontier with a min-heap of <code>(node, distance)</code>. The first time you pop a node, that distance is final.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Fastest driving route when every road has a positive travel time.</li><li>Cheapest shipping path through warehouses.</li><li>Lowest latency from one server to every other server in a network.</li><li>Do not use it for “negative toll refunds”; that needs Bellman-Ford.</li></ul>
 <p>Idea:</p>
 <ol><li><code>dist[src] = 0</code>, others <code>+inf</code>.</li><li>Min-heap of <code>(node, dist)</code>.</li><li>Pop the closest unfinished node. Skip stale heap entries.</li><li>Relax each outgoing edge: if <code>dist[u]+w &lt; dist[v]</code>, update and push.</li></ol>
 <p>This implementation treats edges as directed. Duplicate an edge both ways for an undirected graph. Negative weights need Bellman-Ford.</p>
@@ -420,7 +435,10 @@
 <p><strong>Complexity:</strong> time O((n + m) log n) with a binary heap, extra space O(n + m).</p>
 <hr>
 <h2 id="l19-topological-sort">L19. Topological Sort</h2>
-<ul><li>Video: <a href="https://www.youtube.com/watch?v=yLjF-BVXefQ">L19. Topological Sort</a> (59:38)</li><li>Ordering of a <strong>DAG</strong> so every edge <code>u → v</code> has <code>u</code> before <code>v</code>. Cycle ⇒ no order.</li></ul>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=yLjF-BVXefQ">L19. Topological Sort</a> (59:38)</li></ul>
+<p><strong>Definition:</strong> an ordering of a <strong>directed acyclic graph</strong> so every edge <code>u → v</code> has <code>u</code> before <code>v</code>. A cycle means no valid order. DFS pushes a node after its dependents; Kahn starts from indegree 0.</p>
+<p><strong>Real-world use:</strong></p>
+<ul><li>Course schedule: finish prerequisites before the next class.</li><li>Build order: compile library A before app B.</li><li>Getting-dressed order: socks before shoes.</li><li>Spreadsheet cells: compute <code>A1</code> before any formula that reads <code>A1</code>.</li></ul>
 <h3 id="1-dfs-stack">1. DFS + stack</h3>
 <p>Visit neighbors first, then push <code>u</code>. Reverse the stack at the end. A back edge to a <strong>gray</strong> node is a cycle.</p>
 <pre><code class="language-go">func TopoSortDFS(n int, edges [][]int) []int {
