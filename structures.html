@@ -123,6 +123,7 @@
 		}
 	}
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n²) worst/average, O(n) if already sorted. Extra space O(1).</p>
 <h3 id="2-selection-sort">2. Selection sort</h3>
 <p>For each index <code>i</code>, find the minimum in <code>nums[i:]</code> and swap it into place. Always n-1 + n-2 + … scans, so always O(n²).</p>
 <p>Video array: <code>[64,25,12,22,11]</code></p>
@@ -138,6 +139,7 @@
 		nums[i], nums[minIdx] = nums[minIdx], nums[i]
 	}
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n²) in every case. Extra space O(1).</p>
 <h3 id="3-insertion-sort">3. Insertion sort</h3>
 <p><code>nums[:i]</code> is already sorted. Pull <code>key = nums[i]</code> left until it sits in order. Good on nearly sorted input.</p>
 <p>Video array: <code>[12,11,13,5,6]</code></p>
@@ -153,6 +155,7 @@
 		nums[j+1] = key
 	}
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n²) worst/average, O(n) if already sorted. Extra space O(1).</p>
 <h3 id="4-merge-sort">4. Merge sort</h3>
 <p>Split until one element, then merge two sorted halves with two pointers. Reuse one temp slice.</p>
 <p>Video array: <code>[38,27,43,10]</code></p>
@@ -189,6 +192,7 @@
 	}
 	sortRange(0, len(nums))
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n log n) always. Extra space O(n) for <code>tmp</code> plus O(log n) recursion.</p>
 <h3 id="5-quick-sort-lomuto-last-element-is-pivot">5. Quick sort (Lomuto, last element is pivot)</h3>
 <p>The video partitions around a pivot: smaller values left, larger values right, then recurse. Walkthrough: <code>[10,80,30,90,40]</code>, pivot <code>40</code>.</p>
 <ol><li>Scan <code>10,80,30,90</code>. Values <code>&lt;= 40</code> are packed to the front: <code>10</code>, then <code>30</code>.</li><li>Swap pivot into the hole → <code>[10,30,40,90,80]</code>.</li><li>Recurse on <code>[10,30]</code> and <code>[90,80]</code>.</li></ol>
@@ -209,6 +213,7 @@ func lomutoPartition(nums []int, lo, hi int) int {
 	nums[store], nums[hi] = nums[hi], nums[store]
 	return store
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n log n) average, O(n²) worst (sorted input with this pivot). Extra space O(log n) recursion, O(n) worst.</p>
 <hr>
 <h2 id="l8-hash-maps">L8. Hash Maps</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=gl2lg6HnB6E">L8. HashMaps</a> (52:29)</li><li>Hash the key, map it to a bucket, walk the chain. Same key updates; different keys that collide share a bucket.</li></ul>
@@ -228,7 +233,7 @@ func (m *ChainHashMap) Put(key, value string) {
 	}
 	m.buckets[i] = &amp;chainEntry{key: key, value: value, next: m.buckets[i]}
 }</code></pre>
-<p>Average get/put is O(1). A bad hash or many collisions degrades to O(n).</p>
+<p><strong>Complexity:</strong> average get/put time O(1), extra space O(n + buckets). A bad hash or many collisions degrades to O(n) time.</p>
 <h3 id="2-frequency-count">2. Frequency count</h3>
 <p><code>&quot;abcabc&quot;</code> → <code>a:2 b:2 c:2</code>.</p>
 <pre><code class="language-go">func CharFrequency(s string) map[rune]int {
@@ -238,6 +243,7 @@ func (m *ChainHashMap) Put(key, value string) {
 	}
 	return freq
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(u) for distinct characters.</p>
 <h3 id="3-two-sum-unsorted">3. Two Sum (unsorted)</h3>
 <p>Look up <code>target-current</code> <strong>before</strong> storing the current index so one element is not used twice.</p>
 <pre><code class="language-go">func TwoSum(nums []int, target int) []int {
@@ -250,6 +256,7 @@ func (m *ChainHashMap) Put(key, value string) {
 	}
 	return nil
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(n).</p>
 <h3 id="4-word-pattern">4. Word Pattern</h3>
 <p>Both directions must match. <code>abba</code> / <code>dog cat cat dog</code> is true. <code>abba</code> / <code>dog cat cat fish</code> is false. <code>abba</code> / <code>dog dog dog dog</code> is false (two letters, one word).</p>
 <pre><code class="language-go">func WordPattern(pattern, s string) bool {
@@ -271,6 +278,7 @@ func (m *ChainHashMap) Put(key, value string) {
 	}
 	return true
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(n) for the two maps.</p>
 <h3 id="5-valid-anagram">5. Valid Anagram</h3>
 <p><code>&quot;anagram&quot;</code> and <code>&quot;nagaram&quot;</code>. Increment for <code>s</code>, decrement for <code>t</code>. Every bucket must finish at 0.</p>
 <pre><code class="language-go">func IsAnagram(s, t string) bool {
@@ -289,6 +297,7 @@ func (m *ChainHashMap) Put(key, value string) {
 	}
 	return true
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(1) — the 26 counters do not grow with n.</p>
 <h3 id="6-group-anagrams">6. Group Anagrams</h3>
 <p>Video uses the sorted word as the key and mentions a 26-count signature as the faster homework. The Go code uses the count key.</p>
 <p>Input: <code>eat tea tan ate nat bat</code> → <code>{ate,eat,tea}</code>, <code>{nat,tan}</code>, <code>{bat}</code>.</p>
@@ -307,6 +316,7 @@ func (m *ChainHashMap) Put(key, value string) {
 	}
 	return out
 }</code></pre>
+<p><strong>Complexity:</strong> time O(T) where T is the total number of letters. Extra space O(T) for the groups.</p>
 <hr>
 <h2 id="l9-stacks">L9. Stacks</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=KhJD99--Sj4">L9. Stacks</a> (45:21)</li><li>LIFO. Use it for nesting, undo, or “nearest greater to the right”.</li></ul>
@@ -327,6 +337,7 @@ func (m *ChainHashMap) Put(key, value string) {
 	}
 	return len(stack) == 0
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(n).</p>
 <h3 id="2-next-greater-element-i">2. Next Greater Element I</h3>
 <p><code>nums1=[4,1,2]</code>, <code>nums2=[1,3,4,2]</code> → <code>[-1,3,-1]</code>.</p>
 <p>Scan <code>nums2</code> left to right. Keep a <strong>decreasing</strong> stack. When the current value is larger, it is the next greater of every popped value. Leftovers map to <code>-1</code>.</p>
@@ -349,6 +360,7 @@ func (m *ChainHashMap) Put(key, value string) {
 	}
 	return out
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n + m), extra space O(n). <code>n = len(nums2)</code>, <code>m = len(nums1)</code>.</p>
 <h3 id="3-simplify-path">3. Simplify path</h3>
 <p><code>/home/user/documents/../pictures</code> → <code>/home/user/pictures</code>.</p>
 <p>Split on <code>/</code>. Ignore empty and <code>.</code>. <code>..</code> pops if the stack is not empty (never climb above root).</p>
@@ -367,6 +379,7 @@ func (m *ChainHashMap) Put(key, value string) {
 	}
 	return &quot;/&quot; + strings.Join(stack, &quot;/&quot;)
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(n).</p>
 <hr>
 <h2 id="l10-queue">L10. Queue</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=JA5fN1VxIW4">L10. Queue &amp; Types</a> (36:41)</li><li>FIFO. Variants: simple, circular, deque, priority queue.</li></ul>
@@ -395,7 +408,7 @@ func (q *MyQueue) Pop() int {
 	q.out = q.out[:n-1]
 	return x
 }</code></pre>
-<p>Amortized O(1) per operation.</p>
+<p><strong>Complexity:</strong> push/pop/peek amortized time O(1), worst-case transfer O(n). Extra space O(n).</p>
 <h3 id="2-binary-tree-level-order">2. Binary tree level order</h3>
 <p>Tree <code>3 / 9 20 / 15 7</code> → <code>[[3],[9,20],[15,7]]</code>. Capture the current queue length before enqueueing children.</p>
 <pre><code class="language-go">func LevelOrder(root *TreeNode) [][]int {
@@ -422,6 +435,7 @@ func (q *MyQueue) Pop() int {
 	}
 	return out
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(w) for the queue plus O(n) for the output. <code>w</code> is the widest level.</p>
 <h3 id="3-kth-largest-size-k-min-heap">3. Kth largest — size-<code>k</code> min-heap</h3>
 <p>Spoken example: second largest is <code>5</code> (array <code>[3,2,1,5,6,4]</code>, <code>k=2</code>). The heap root is the kth largest.</p>
 <pre><code class="language-go">func FindKthLargest(nums []int, k int) int {
@@ -435,6 +449,7 @@ func (q *MyQueue) Pop() int {
 	}
 	return h[0]
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n log k), extra space O(k).</p>
 <hr>
 <h2 id="l11-l13-heap-and-top-k">L11 &amp; L13. Heap and Top-K</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=UCQ7QQZLbvU">L11 &amp; L13. Heap / Top K</a> (37:53)</li><li>A heap is a complete binary tree stored in an array.</li></ul>
@@ -475,8 +490,9 @@ func (h *IntMinHeap) heapDown(i int) {
 		i = best
 	}
 }</code></pre>
+<p><strong>Complexity:</strong> insert or remove-root time O(log n). Peek time O(1). Extra space O(n) for the array.</p>
 <h3 id="2-heap-sort">2. Heap sort</h3>
-<p>Build a max-heap, then swap the root to the end and heap-down the reduced prefix. Time O(n log n), extra space O(1).</p>
+<p>Build a max-heap, then swap the root to the end and heap-down the reduced prefix.</p>
 <pre><code class="language-go">func HeapSort(nums []int) {
 	n := len(nums)
 	for i := n/2 - 1; i &gt;= 0; i-- {
@@ -487,9 +503,11 @@ func (h *IntMinHeap) heapDown(i int) {
 		siftDownMax(nums, end, 0)
 	}
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n log n), extra space O(1).</p>
 <h3 id="3-top-k-frequent">3. Top K frequent</h3>
 <p><code>[1,1,1,2,2,3]</code>, <code>k=2</code> → <code>{1,2}</code>. Count frequencies, keep a min-heap of size <code>k</code> ordered by frequency.</p>
 <pre><code class="language-go">func TopKFrequent(nums []int, k int) []int { /* see solutions.go */ }</code></pre>
+<p><strong>Complexity:</strong> time O(n + u log k), extra space O(u + k). <code>u</code> is the number of unique values.</p>
 <h3 id="4-kth-smallest-in-a-sorted-matrix">4. Kth smallest in a sorted matrix</h3>
 <p>Video matrix <code>[[1,5,9],[10,11,13],[12,13,15]]</code>. Push every cell into a size-<code>k</code> max-heap. The root is the kth smallest. For <code>k=8</code> the answer is <code>13</code>.</p>
 <pre><code class="language-go">func KthSmallestMatrix(matrix [][]int, k int) int {
@@ -504,6 +522,7 @@ func (h *IntMinHeap) heapDown(i int) {
 	}
 	return h[0]
 }</code></pre>
+<p><strong>Complexity:</strong> time O(r c log k), extra space O(k). <code>r</code> and <code>c</code> are the matrix dimensions.</p>
 <hr>
 <h2 id="l12-k-way-merge">L12. K-way Merge</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=ndjnm6s9ZDE">L12. K-way Merge</a> (43:40)</li><li>Each source is already sorted. Only the current head of each source can be the next global minimum.</li></ul>
@@ -525,9 +544,11 @@ func (h *IntMinHeap) heapDown(i int) {
 	out = append(out, b[j:]...)
 	return out
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n + m), extra space O(n + m) for the output.</p>
 <h3 id="2-merge-k-sorted-lists">2. Merge K sorted lists</h3>
 <p>Lists <code>[1,4,5]</code>, <code>[1,3,4]</code>, <code>[2,6]</code>. Min-heap of list heads. Pop the smallest, push its <code>Next</code>. Time O(N log k).</p>
 <pre><code class="language-go">func MergeKLists(lists []*ListNode) *ListNode { /* see solutions.go */ }</code></pre>
+<p><strong>Complexity:</strong> time O(N log k), extra space O(k) for the heap. <code>N</code> is the total number of nodes.</p>
 <h3 id="3-k-pairs-with-smallest-sums">3. K pairs with smallest sums</h3>
 <p><code>nums1=[1,7,11]</code>, <code>nums2=[2,4,6]</code>, <code>k=3</code> → <code>[1,2],[1,4],[1,6]</code>.</p>
 <p>Seed <code>(i,0)</code> for the first <code>min(len(nums1),k)</code> rows. Pop the smallest sum, then push <code>(i, j+1)</code>.</p>
@@ -550,6 +571,7 @@ func (h *IntMinHeap) heapDown(i int) {
 	}
 	return out
 }</code></pre>
+<p><strong>Complexity:</strong> time O(k log min(len(nums1), k)), extra space O(min(len(nums1), k)) plus the output.</p>
     </main>
   </div>
 </body>

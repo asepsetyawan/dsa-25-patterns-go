@@ -125,6 +125,7 @@
 	walk(root)
 	return out
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(h) recursion plus O(n) for the output. <code>h</code> is tree height.</p>
 <h3 id="2-preorder-node-left-right">2. Preorder — node, left, right</h3>
 <p>Useful to clone or serialize. Result: <code>[1,2,3]</code>.</p>
 <pre><code class="language-go">func PreorderTraversal(root *TreeNode) []int {
@@ -141,6 +142,7 @@
 	walk(root)
 	return out
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(h) recursion plus O(n) for the output.</p>
 <h3 id="3-postorder-left-right-node">3. Postorder — left, right, node</h3>
 <p>Children finish first. Result: <code>[2,3,1]</code>.</p>
 <pre><code class="language-go">func PostorderTraversal(root *TreeNode) []int {
@@ -157,6 +159,7 @@
 	walk(root)
 	return out
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(h) recursion plus O(n) for the output.</p>
 <h3 id="4-maximum-depth">4. Maximum depth</h3>
 <p>Empty tree is 0. Otherwise <code>1 + max(left, right)</code>.</p>
 <pre><code class="language-text">    3
@@ -175,6 +178,7 @@
 	}
 	return right + 1
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(h) recursion.</p>
 <h3 id="5-same-tree">5. Same tree</h3>
 <p>Same shape and same values.</p>
 <pre><code class="language-go">func IsSameTree(p, q *TreeNode) bool {
@@ -185,6 +189,7 @@
 		IsSameTree(p.Left, q.Left) &amp;&amp;
 		IsSameTree(p.Right, q.Right)
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(h) recursion.</p>
 <hr>
 <h2 id="l15-dfs-on-trees">L15. DFS on Trees</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=9oAECTcceD4">L15. DFS</a> (51:44)</li><li>Go as deep as possible, then backtrack. Each problem is “recurse on children, then decide”.</li></ul>
@@ -202,6 +207,7 @@
 	root.Left, root.Right = InvertTree(root.Right), InvertTree(root.Left)
 	return root
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(h) recursion.</p>
 <h3 id="2-sum-of-left-leaves">2. Sum of left leaves</h3>
 <p>A left leaf is a <strong>left child with no children</strong>. Tree <code>3 / 9 20 / 15 7</code> → <code>9 + 15 = 24</code>.</p>
 <pre><code class="language-go">func SumOfLeftLeaves(root *TreeNode) int {
@@ -214,6 +220,7 @@
 	}
 	return sum + SumOfLeftLeaves(root.Left) + SumOfLeftLeaves(root.Right)
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(h) recursion.</p>
 <h3 id="3-path-sum">3. Path sum</h3>
 <p>Root-to-<strong>leaf</strong> only. Subtract the node value and ask either child.</p>
 <pre><code class="language-go">func HasPathSum(root *TreeNode, targetSum int) bool {
@@ -226,6 +233,7 @@
 	remain := targetSum - root.Val
 	return HasPathSum(root.Left, remain) || HasPathSum(root.Right, remain)
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(h) recursion.</p>
 <h3 id="4-balanced-binary-tree">4. Balanced binary tree</h3>
 <p>Every node’s two subtree heights differ by at most 1. Return height, or <code>-1</code> the moment a subtree is unbalanced, so the scan stays O(n).</p>
 <pre><code class="language-go">func IsBalanced(root *TreeNode) bool {
@@ -249,11 +257,13 @@
 	}
 	return height(root) &gt;= 0
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(h) recursion.</p>
 <hr>
 <h2 id="l16-bfs-on-trees">L16. BFS on Trees</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=AcPSaITm-M8">L16. BFS</a> (34:24)</li><li>Queue + “process exactly the current level size”.</li></ul>
 <h3 id="1-level-order">1. Level order</h3>
 <p>Same as L10. Tree <code>3 / 9 20 / 15 7</code> → <code>[[3],[9,20],[15,7]]</code>.</p>
+<p><strong>Complexity:</strong> time O(n), extra space O(w) for the queue plus O(n) for the output.</p>
 <h3 id="2-zigzag-level-order">2. Zigzag level order</h3>
 <p>Same levels, reverse the odd ones → <code>[[3],[20,9],[15,7]]</code>.</p>
 <pre><code class="language-go">func ZigzagLevelOrder(root *TreeNode) [][]int {
@@ -267,6 +277,7 @@
 	}
 	return levels
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(w) for the queue plus O(n) for the output.</p>
 <h3 id="3-minimum-depth">3. Minimum depth</h3>
 <p>First leaf the BFS reaches. Not the same as maximum depth on a skewed tree.</p>
 <pre><code class="language-go">func MinDepth(root *TreeNode) int {
@@ -292,9 +303,11 @@
 	}
 	return 0
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(w) for the queue.</p>
 <h3 id="4-maximum-level-sum">4. Maximum level sum</h3>
 <p>Sum each level. Return the <strong>1-based</strong> level with the largest sum. Ties keep the smaller level index.</p>
 <pre><code class="language-go">func MaxLevelSum(root *TreeNode) int { /* see solutions.go */ }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(w) for the queue.</p>
 <hr>
 <h2 id="l17-graphs">L17. Graphs</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=wEmaD49evoM">L17. Graph Representation</a> (56:34)</li><li>Directed vs undirected, weighted vs unweighted. A grid is a graph whose neighbors are adjacent cells.</li></ul>
@@ -317,6 +330,7 @@
 	}
 	return m
 }</code></pre>
+<p><strong>Complexity:</strong> build time O(n² + m), extra space O(n²). Edge test is O(1).</p>
 <h3 id="2-adjacency-list">2. Adjacency list</h3>
 <p><code>g[u]</code> is the neighbor list. O(n+m) space. Good for sparse graphs and walking neighbors.</p>
 <pre><code class="language-go">func AdjList(n int, edges [][]int, undirected bool) [][][2]int {
@@ -333,6 +347,7 @@
 	}
 	return g
 }</code></pre>
+<p><strong>Complexity:</strong> build time O(n + m), extra space O(n + m). Walking neighbors of <code>u</code> is O(degree(u)).</p>
 <h3 id="3-flood-fill">3. Flood fill</h3>
 <p>4-connected DFS/BFS. Recolor every cell equal to the start color. If the new color equals the start color, do nothing.</p>
 <pre><code class="language-text">1 1 1      2 2 2
@@ -358,12 +373,14 @@
 	dfs(sr, sc)
 	return image
 }</code></pre>
+<p><strong>Complexity:</strong> time O(rows × cols), extra space O(rows × cols) in the worst DFS stack.</p>
 <h3 id="4-rotting-oranges">4. Rotting oranges</h3>
 <p><code>0</code> empty, <code>1</code> fresh, <code>2</code> rotten. Multi-source BFS: enqueue every rotten orange first. Each BFS layer is one minute. Return <code>-1</code> if a fresh orange remains.</p>
 <pre><code class="language-text">2 1 1
 1 1 0   →  4 minutes
 0 1 1</code></pre>
 <pre><code class="language-go">func OrangesRotting(grid [][]int) int { /* see solutions.go */ }</code></pre>
+<p><strong>Complexity:</strong> time O(rows × cols), extra space O(rows × cols) for the queue.</p>
 <hr>
 <h2 id="l18-dijkstra">L18. Dijkstra</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=H0zJo07uo54">L18. Dijkstra</a> (35:12)</li><li>Shortest path from one source on a graph with <strong>non-negative</strong> weights. Output is a distance array.</li></ul>
@@ -400,7 +417,7 @@
 	}
 	return dist
 }</code></pre>
-<p>Time O((n+m) log n) with a binary heap.</p>
+<p><strong>Complexity:</strong> time O((n + m) log n) with a binary heap, extra space O(n + m).</p>
 <hr>
 <h2 id="l19-topological-sort">L19. Topological Sort</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=yLjF-BVXefQ">L19. Topological Sort</a> (59:38)</li><li>Ordering of a <strong>DAG</strong> so every edge <code>u → v</code> has <code>u</code> before <code>v</code>. Cycle ⇒ no order.</li></ul>
@@ -443,6 +460,7 @@
 	}
 	return out
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n + m), extra space O(n + m).</p>
 <h3 id="2-kahns-algorithm-bfs">2. Kahn’s algorithm (BFS)</h3>
 <p>Start from indegree 0. Each processed node decrements its neighbors. If you cannot process all nodes, there is a cycle.</p>
 <pre><code class="language-go">func TopoSortKahn(n int, edges [][]int) []int {
@@ -474,6 +492,7 @@
 	}
 	return out
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n + m), extra space O(n + m).</p>
 <h3 id="3-course-schedule">3. Course schedule</h3>
 <p><code>prerequisites[i] = [course, pre]</code> means <code>pre → course</code>. Possible iff a topo order exists.</p>
 <p><code>numCourses=2</code>, <code>[[1,0]]</code> → true. <code>[[1,0],[0,1]]</code> → false.</p>
@@ -484,6 +503,7 @@
 	}
 	return TopoSortKahn(numCourses, edges) != nil
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n + m), extra space O(n + m).</p>
     </main>
   </div>
 </body>

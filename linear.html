@@ -124,7 +124,7 @@
 	}
 	return nil
 }</code></pre>
-<p>Time O(n), extra space O(1).</p>
+<p><strong>Complexity:</strong> time O(n), extra space O(1).</p>
 <h3 id="2-remove-duplicates-from-sorted-array">2. Remove Duplicates from Sorted Array</h3>
 <p>Write unique values into a compact prefix. Return the new length <code>k</code>. The caller only reads <code>nums[:k]</code>.</p>
 <p>Dry run: <code>[0,0,1,1,1,2,2,3,3,4]</code> → prefix <code>[0,1,2,3,4]</code>, <code>k=5</code>.</p>
@@ -142,6 +142,7 @@
 	}
 	return write
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(1).</p>
 <h3 id="3-valid-palindrome">3. Valid Palindrome</h3>
 <p>Skip punctuation and spaces. Compare lowercase letters and digits from both ends.</p>
 <ul><li><code>&quot;madam&quot;</code> → true</li><li><code>&quot;ABCDA&quot;</code> → false</li><li><code>&quot;A man, a plan, a canal: Panama&quot;</code> → true</li></ul>
@@ -163,6 +164,7 @@
 	}
 	return true
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(n) for the <code>[]rune</code> copy. A byte-index walk on ASCII is O(1) extra space.</p>
 <h3 id="4-container-with-most-water">4. Container With Most Water</h3>
 <p>Area is <code>min(height[left], height[right]) * (right-left)</code>. The only move that can improve the area is to drop the shorter wall.</p>
 <p>Dry run: <code>[1,8,6,2,5,4,8,3,7]</code> → max area <code>49</code> between indices 1 and 8 (<code>min(8,7)*7</code>).</p>
@@ -184,6 +186,7 @@
 	}
 	return best
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(1).</p>
 <hr>
 <h2 id="l2-fast-and-slow-pointers">L2. Fast and Slow Pointers</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=pNRRdv90n68">L2. Fast and Slow Pointers</a> (49:10)</li><li>Slow takes one step, fast takes two. Meeting means a cycle. The same idea works on any deterministic “next state” function.</li></ul>
@@ -200,6 +203,7 @@
 	}
 	return false
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(1).</p>
 <h3 id="2-linked-list-cycle-ii-entry-node">2. Linked List Cycle II — entry node</h3>
 <p>After they meet, put one pointer back at <code>head</code>. Walk both one step at a time. They meet at the cycle start.</p>
 <pre><code class="language-go">func DetectCycle(head *ListNode) *ListNode {
@@ -219,6 +223,7 @@
 	}
 	return nil
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(1).</p>
 <h3 id="3-middle-of-the-linked-list">3. Middle of the Linked List</h3>
 <p>When fast hits the end, slow is in the middle. Even length returns the <strong>second</strong> middle.</p>
 <pre><code class="language-go">func MiddleNode(head *ListNode) *ListNode {
@@ -229,6 +234,7 @@
 	}
 	return slow
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(1).</p>
 <h3 id="4-happy-number">4. Happy Number</h3>
 <p><code>next(n)</code> is the sum of squared digits. <code>19 → 82 → 68 → 100 → 1</code> is happy. <code>2 → 4 → … → 4</code> is a cycle.</p>
 <pre><code class="language-go">func IsHappy(n int) bool {
@@ -249,6 +255,7 @@ func nextHappy(n int) int {
 	}
 	return sum
 }</code></pre>
+<p><strong>Complexity:</strong> time O(log n) per <code>nextHappy</code> step and O(1) states before a cycle, extra space O(1).</p>
 <hr>
 <h2 id="l3-sliding-window">L3. Sliding Window</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=x1ZUaf_Qhk0">L3. Sliding Window</a> (50:10)</li><li>A window is a contiguous slice. Add the entering value, drop the leaving value. Do not recompute from scratch.</li></ul>
@@ -276,6 +283,7 @@ func nextHappy(n int) int {
 	}
 	return best
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(k) for the values inside one window.</p>
 <h3 id="2-longest-substring-without-repeating-characters-variable">2. Longest substring without repeating characters (variable)</h3>
 <p><code>&quot;abcabcbb&quot;</code> → <code>3</code> (<code>&quot;abc&quot;</code>). If a character repeats inside the window, jump <code>left</code> past its previous index.</p>
 <pre><code class="language-go">func LengthOfLongestSubstring(s string) int {
@@ -293,6 +301,7 @@ func nextHappy(n int) int {
 	}
 	return best
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(u) for distinct characters in the string.</p>
 <h3 id="3-minimum-size-subarray-sum-variable-shrink-while-valid">3. Minimum size subarray sum (variable, shrink while valid)</h3>
 <p>Positive numbers. Target <code>7</code>, <code>[2,3,1,2,4,3]</code> → length <code>2</code> from <code>[4,3]</code>.</p>
 <p>Expand <code>right</code> until <code>sum &gt;= target</code>, then shrink <code>left</code> while that stays true.</p>
@@ -314,6 +323,7 @@ func nextHappy(n int) int {
 	return best
 }</code></pre>
 <p>This shrink loop is only correct for <strong>non-negative</strong> values.</p>
+<p><strong>Complexity:</strong> time O(n), extra space O(1).</p>
 <hr>
 <h2 id="l4-prefix-sum">L4. Prefix Sum</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=y4jZhNPCItc">L4. Prefix Sum</a> (45:13)</li><li><code>prefix[j] - prefix[i-1]</code> is the sum of <code>nums[i..j]</code>.</li></ul>
@@ -337,6 +347,7 @@ func RangeSum(prefix []int, left, right int) int {
 	}
 	return prefix[right] - prefix[left-1]
 }</code></pre>
+<p><strong>Complexity:</strong> build in time O(n) and space O(n). Each range query is time O(1), extra space O(1).</p>
 <h3 id="2-pivot-index">2. Pivot index</h3>
 <p><code>[1,7,3,6,5,6]</code>. Index <code>3</code> (<code>6</code>) has left sum <code>11</code> and right sum <code>11</code>.</p>
 <pre><code class="language-go">func PivotIndex(nums []int) int {
@@ -353,6 +364,7 @@ func RangeSum(prefix []int, left, right int) int {
 	}
 	return -1
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(1).</p>
 <h3 id="3-subarray-sum-equals-k">3. Subarray sum equals K</h3>
 <p>Seed <code>{0:1}</code>. Query <code>freq[sum-k]</code> <strong>before</strong> inserting the current prefix.</p>
 <p><code>[1,1,1]</code>, <code>k=2</code> → 2. <code>[1,2,3]</code>, <code>k=3</code> → <code>[1,2]</code> and <code>[3]</code>.</p>
@@ -366,6 +378,7 @@ func RangeSum(prefix []int, left, right int) int {
 	}
 	return count
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(n).</p>
 <h3 id="4-continuous-subarray-sum">4. Continuous subarray sum</h3>
 <p>Need a subarray of length at least 2 whose sum is divisible by <code>k</code>. Store the <strong>earliest</strong> index of each remainder. <code>[23,2,4,6,7]</code>, <code>k=6</code> is true because <code>[2,4]</code> sums to 6.</p>
 <pre><code class="language-go">func CheckSubarraySum(nums []int, k int) bool {
@@ -390,6 +403,7 @@ func RangeSum(prefix []int, left, right int) int {
 	}
 	return false
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(n).</p>
 <hr>
 <h2 id="l5-merge-intervals">L5. Merge Intervals</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=SQak4ciLCN8">L5. Merge Intervals / Meeting Rooms</a> (41:07)</li><li>Sort by start. Overlap means <code>current.start &lt;= last.end</code>.</li></ul>
@@ -418,6 +432,7 @@ func RangeSum(prefix []int, left, right int) int {
 	}
 	return out
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n log n) to sort, then O(n) to merge. Extra space O(n) for the output (and the copy if the caller’s slice must stay intact).</p>
 <h3 id="2-insert-interval">2. Insert interval</h3>
 <p>Input is already sorted and non-overlapping. Three phases: copy intervals <strong>before</strong> the new one, merge overlaps into it, copy the rest.</p>
 <p><code>[[1,3],[6,9]]</code> insert <code>[2,5]</code> → <code>[[1,5],[6,9]]</code>.</p>
@@ -440,6 +455,7 @@ func RangeSum(prefix []int, left, right int) int {
 	out = append(out, newInterval)
 	return append(out, intervals[i:]...)
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(n) for the result.</p>
 <h3 id="3-meeting-rooms-i">3. Meeting Rooms I</h3>
 <p>One person. <code>[1,3]</code> and <code>[2,5]</code> overlap → cannot attend both. Touching endpoints (<code>[1,2]</code> and <code>[2,5]</code>) are allowed.</p>
 <pre><code class="language-go">func CanAttendMeetings(intervals [][]int) bool {
@@ -451,7 +467,8 @@ func RangeSum(prefix []int, left, right int) int {
 	}
 	return true
 }</code></pre>
-<p>Meeting Rooms II is named in the video but not finished. The usual follow-up is a min-heap of end times: the heap size is the room count.</p>
+<p><strong>Complexity:</strong> time O(n log n), extra space O(1) besides the sort.</p>
+<p>Meeting Rooms II is named in the video but not finished. The usual follow-up is a min-heap of end times: the heap size is the room count. <strong>Complexity:</strong> time O(n log n), extra space O(n).</p>
 <hr>
 <h2 id="l6-binary-search">L6. Binary Search</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=QmLHHDvAm-E">L6. Binary Search</a> (1:11:57)</li><li>Halve a <strong>monotonic</strong> search space. Always use <code>mid := left + (right-left)/2</code>.</li></ul>
@@ -472,6 +489,7 @@ func RangeSum(prefix []int, left, right int) int {
 	}
 	return -1
 }</code></pre>
+<p><strong>Complexity:</strong> time O(log n), extra space O(1).</p>
 <h3 id="2-search-a-2d-matrix">2. Search a 2D matrix</h3>
 <p>Each row is sorted and the next row starts after the previous row ends. Flatten mentally: index <code>mid</code> is <code>matrix[mid/cols][mid%cols]</code>.</p>
 <pre><code class="language-go">func SearchMatrix(matrix [][]int, target int) bool {
@@ -491,6 +509,7 @@ func RangeSum(prefix []int, left, right int) int {
 	}
 	return false
 }</code></pre>
+<p><strong>Complexity:</strong> time O(log (rows × cols)), extra space O(1).</p>
 <h3 id="3-search-in-rotated-sorted-array">3. Search in rotated sorted array</h3>
 <p><code>[4,5,6,7,0,1,2]</code>, target <code>0</code>. One half of <code>[left,mid]</code> is always sorted. Keep the half that can contain the target. Distinct values only.</p>
 <pre><code class="language-go">func SearchRotated(nums []int, target int) int {
@@ -514,6 +533,7 @@ func RangeSum(prefix []int, left, right int) int {
 	}
 	return -1
 }</code></pre>
+<p><strong>Complexity:</strong> time O(log n), extra space O(1). Distinct values only.</p>
 <h3 id="4-capacity-to-ship-packages-within-d-days">4. Capacity to ship packages within D days</h3>
 <p>Binary search the <strong>answer</strong>. Lower bound is the heaviest package. Upper bound is the total weight. Packages stay in order.</p>
 <p>Weights <code>[1..10]</code>, 5 days → capacity <code>15</code>. <code>[3,2,2,4,1,4]</code>, 3 days → <code>6</code>.</p>
@@ -536,6 +556,7 @@ func RangeSum(prefix []int, left, right int) int {
 	return low
 }</code></pre>
 <p>Feasibility: start a new day whenever <code>load+w</code> exceeds capacity. If you need more than <code>days</code> days, <code>mid</code> is too small.</p>
+<p><strong>Complexity:</strong> time O(n log S), extra space O(1). <code>S</code> is <code>sum(weights) - max(weights)</code>.</p>
     </main>
   </div>
 </body>

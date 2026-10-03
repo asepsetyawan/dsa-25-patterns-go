@@ -114,6 +114,7 @@
           └─ l
              └─ e   (end=true)</code></pre>
 <p>Then insert <code>&quot;app&quot;</code>: reuse <code>a-p-p</code> and mark that <code>p</code> as <code>end</code>.</p>
+<p><strong>Complexity:</strong> time O(L) for a word of length L. Extra space O(L) new nodes in the worst case.</p>
 <h3 id="2-implement-trie">2. Implement Trie</h3>
 <p><code>Search</code> needs <code>end == true</code>. <code>StartsWith</code> only needs the walk to succeed. <code>&quot;apple&quot;</code> is a word; <code>&quot;app&quot;</code> is only a prefix until you insert it.</p>
 <pre><code class="language-go">type Trie struct {
@@ -141,7 +142,7 @@ func (t *Trie) Search(word string) bool {
 func (t *Trie) StartsWith(prefix string) bool {
 	return t.walk(prefix) != nil
 }</code></pre>
-<p>Time O(length) per operation. Space is the number of created nodes.</p>
+<p><strong>Complexity:</strong> Insert / Search / StartsWith time O(L). Extra space for the trie is O(total characters inserted) after prefix sharing. Each call uses O(1) extra besides the tree.</p>
 <hr>
 <h2 id="l21-greedy">L21. Greedy</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=h1FFy13XPKE">L21. Greedy</a> (41:00)</li><li>A local best choice is also globally correct.</li></ul>
@@ -160,6 +161,7 @@ func (t *Trie) StartsWith(prefix string) bool {
 	}
 	return true
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(1).</p>
 <h3 id="2-jump-game-ii">2. Jump Game II</h3>
 <p>Minimum jumps, assuming a path exists. The current jump covers <code>[prevEnd+1, end]</code>. When <code>i</code> hits <code>end</code>, take one more jump and extend <code>end</code> to <code>farthest</code>.</p>
 <p><code>[2,3,1,1,4]</code> → 2 (<code>0→1→4</code>).</p>
@@ -176,6 +178,7 @@ func (t *Trie) StartsWith(prefix string) bool {
 	}
 	return jumps
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(1).</p>
 <h3 id="3-gas-station">3. Gas station</h3>
 <p>Unique circular tour. If total gas &lt; total cost, impossible. Otherwise the start is the station <strong>after</strong> the last time the tank went negative.</p>
 <p><code>gas=[1,2,3,4,5]</code>, <code>cost=[3,4,5,1,2]</code> → start index <code>3</code>.</p>
@@ -195,6 +198,7 @@ func (t *Trie) StartsWith(prefix string) bool {
 	}
 	return start
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(1).</p>
 <hr>
 <h2 id="l22-dynamic-programming-house-robber">L22. Dynamic Programming — House Robber</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=DjJ3tJ8xtWk">L22. DP / House Robber</a> (45:38)</li><li>Same recurrence, three implementations.</li></ul>
@@ -225,6 +229,7 @@ func (t *Trie) StartsWith(prefix string) bool {
 	}
 	return robFrom(0)
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(n) for the memo plus O(n) recursion.</p>
 <h3 id="type-2-bottom-up-table">Type 2 — bottom-up table</h3>
 <pre><code class="language-go">func RobBottomUp(nums []int) int {
 	n := len(nums)
@@ -248,6 +253,7 @@ func (t *Trie) StartsWith(prefix string) bool {
 	}
 	return dp[n-1]
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(n).</p>
 <h3 id="type-3-space-optimization">Type 3 — space optimization</h3>
 <p>Only <code>dp[i-1]</code> and <code>dp[i-2]</code> are needed.</p>
 <pre><code class="language-go">func Rob(nums []int) int {
@@ -261,6 +267,7 @@ func (t *Trie) StartsWith(prefix string) bool {
 	}
 	return prev1
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(1).</p>
 <p>All three are O(n) time. Extra space is O(n), O(n), then O(1).</p>
 <hr>
 <h2 id="l23-minimum-path-sum">L23. Minimum Path Sum</h2>
@@ -301,6 +308,7 @@ func (t *Trie) StartsWith(prefix string) bool {
 	}
 	return dfs(0, 0)
 }</code></pre>
+<p><strong>Complexity:</strong> time O(rows × cols), extra space O(rows × cols) for the memo plus O(rows + cols) recursion.</p>
 <h3 id="approach-2-full-table">Approach 2 — full table</h3>
 <p>Fill first row and first column as prefix sums, then the rest.</p>
 <pre><code class="language-go">func MinPathSumTable(grid [][]int) int {
@@ -324,9 +332,11 @@ func (t *Trie) StartsWith(prefix string) bool {
 	}
 	return dp[rows-1][cols-1]
 }</code></pre>
+<p><strong>Complexity:</strong> time O(rows × cols), extra space O(rows × cols).</p>
 <h3 id="approach-3-one-row">Approach 3 — one row</h3>
 <p><code>dp[c]</code> is the previous row until you overwrite it. Compare <code>dp[c]</code> (above) with <code>dp[c-1]</code> (left).</p>
 <pre><code class="language-go">func MinPathSum(grid [][]int) int { /* see solutions.go */ }</code></pre>
+<p><strong>Complexity:</strong> time O(rows × cols), extra space O(cols).</p>
 <hr>
 <h2 id="l24-backtracking">L24. Backtracking</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=NWrnHdzwHig">L24. Backtracking</a> (36:26)</li><li>Choose, recurse, undo (<code>path = path[:len-1]</code>, unmark visited).</li></ul>
@@ -351,6 +361,7 @@ func (t *Trie) StartsWith(prefix string) bool {
 	return out
 }</code></pre>
 <p>The iterative version (<code>Subsets</code> in <code>solutions.go</code>) grows the answer list by cloning every existing subset and appending the new number.</p>
+<p><strong>Complexity:</strong> time O(n · 2ⁿ), extra space O(n) for the path plus O(n · 2ⁿ) for the output.</p>
 <h3 id="2-rat-in-a-maze">2. Rat in a Maze</h3>
 <p><code>n x n</code> grid. <code>1</code> is open, <code>0</code> is blocked. Start <code>(0,0)</code>, end <code>(n-1,n-1)</code>. Moves in order <strong>D L R U</strong>. Mark visited, recurse, unmark.</p>
 <pre><code class="language-text">1 0 0 0
@@ -395,6 +406,7 @@ func (t *Trie) StartsWith(prefix string) bool {
 	dfs(0, 0)
 	return paths
 }</code></pre>
+<p><strong>Complexity:</strong> time O(4^(n²)) in the worst open grid, extra space O(n²) for <code>visited</code> plus O(n²) path depth.</p>
 <hr>
 <h2 id="l25-bitwise-operations">L25. Bitwise Operations</h2>
 <ul><li>Video: <a href="https://www.youtube.com/watch?v=HGhvbhxGXmY">L25. Bitwise Operations</a> (33:26)</li><li>Index <code>i</code> is 0-based from the <strong>least significant</strong> bit.</li></ul>
@@ -403,6 +415,7 @@ func (t *Trie) StartsWith(prefix string) bool {
 <h3 id="1-power-of-two">1. Power of two</h3>
 <p>Positive and exactly one set bit. <code>16</code> yes, <code>18</code> no, <code>0</code> no.</p>
 <pre><code class="language-go">func IsPowerOfTwo(n int) bool { return n &gt; 0 &amp;&amp; n&amp;(n-1) == 0 }</code></pre>
+<p><strong>Complexity:</strong> time O(1), extra space O(1).</p>
 <h3 id="2-count-set-bits">2. Count set bits</h3>
 <pre><code class="language-go">func HammingWeight(n int) int {
 	count := 0
@@ -413,6 +426,7 @@ func (t *Trie) StartsWith(prefix string) bool {
 	return count
 }</code></pre>
 <p><code>11</code> is <code>1011</code> → 3 bits.</p>
+<p><strong>Complexity:</strong> time O(number of set bits), extra space O(1).</p>
 <h3 id="3-only-non-repeating-element">3. Only non-repeating element</h3>
 <p>XOR cancels pairs. <code>[4,1,2,1,2]</code> → <code>4</code>.</p>
 <pre><code class="language-go">func SingleNumber(nums []int) int {
@@ -422,13 +436,16 @@ func (t *Trie) StartsWith(prefix string) bool {
 	}
 	return x
 }</code></pre>
+<p><strong>Complexity:</strong> time O(n), extra space O(1).</p>
 <h3 id="4-get-the-i-th-bit">4. Get the i-th bit</h3>
 <p><code>10</code> is <code>1010</code>. Bit 1 is <code>1</code>.</p>
 <pre><code class="language-go">func GetIthBit(n, i int) int { return (n &gt;&gt; i) &amp; 1 }</code></pre>
+<p><strong>Complexity:</strong> time O(1), extra space O(1).</p>
 <h3 id="5-set-the-i-th-bit">5. Set the i-th bit</h3>
 <p><code>10 | (1&lt;&lt;0)</code> → <code>11</code>.</p>
 <pre><code class="language-go">func SetIthBit(n, i int) int { return n | (1 &lt;&lt; i) }</code></pre>
-<p>Clear is the natural pair: <code>n &amp;^ (1 &lt;&lt; i)</code>.</p>
+<p><strong>Complexity:</strong> time O(1), extra space O(1).</p>
+<p>Clear is the natural pair: <code>n &amp;^ (1 &lt;&lt; i)</code>. Same complexity.</p>
     </main>
   </div>
 </body>
