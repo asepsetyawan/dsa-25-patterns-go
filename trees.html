@@ -114,6 +114,7 @@
   2   3</code></pre>
 <h3 id="1-inorder-left-node-right">1. Inorder — left, node, right</h3>
 <p>BST values come out sorted. Result: <code>[2,1,3]</code>.</p>
+<p><strong>Real-world use:</strong> print employees by salary, or files in a BST index in sorted order.</p>
 <pre><code class="language-go">func InorderTraversal(root *TreeNode) []int {
 	var out []int
 	var walk func(*TreeNode)
@@ -131,6 +132,7 @@
 <p><strong>Complexity:</strong> time O(n), extra space O(h) recursion plus O(n) for the output. <code>h</code> is tree height.</p>
 <h3 id="2-preorder-node-left-right">2. Preorder — node, left, right</h3>
 <p>Useful to clone or serialize. Result: <code>[1,2,3]</code>.</p>
+<p><strong>Real-world use:</strong> copy a menu tree or write a folder before writing its children.</p>
 <pre><code class="language-go">func PreorderTraversal(root *TreeNode) []int {
 	var out []int
 	var walk func(*TreeNode)
@@ -148,6 +150,7 @@
 <p><strong>Complexity:</strong> time O(n), extra space O(h) recursion plus O(n) for the output.</p>
 <h3 id="3-postorder-left-right-node">3. Postorder — left, right, node</h3>
 <p>Children finish first. Result: <code>[2,3,1]</code>.</p>
+<p><strong>Real-world use:</strong> delete a folder only after its files are gone, or compute a total from the leaves up.</p>
 <pre><code class="language-go">func PostorderTraversal(root *TreeNode) []int {
 	var out []int
 	var walk func(*TreeNode)
@@ -165,6 +168,7 @@
 <p><strong>Complexity:</strong> time O(n), extra space O(h) recursion plus O(n) for the output.</p>
 <h3 id="4-maximum-depth">4. Maximum depth</h3>
 <p>Empty tree is 0. Otherwise <code>1 + max(left, right)</code>.</p>
+<p><strong>Real-world use:</strong> how many manager layers sit above the deepest leaf employee, or the tallest HTML DOM.</p>
 <pre><code class="language-text">    3
    / \
   9  20
@@ -184,6 +188,7 @@
 <p><strong>Complexity:</strong> time O(n), extra space O(h) recursion.</p>
 <h3 id="5-same-tree">5. Same tree</h3>
 <p>Same shape and same values.</p>
+<p><strong>Real-world use:</strong> compare two org charts or two parsed expression trees for equality.</p>
 <pre><code class="language-go">func IsSameTree(p, q *TreeNode) bool {
 	if p == nil || q == nil {
 		return p == q
@@ -201,6 +206,7 @@
 <ul><li>Mirror a left-hand / right-hand warehouse layout (invert the tree).</li><li>Sum only the left-side leaf rooms of a building.</li><li>Does any root-to-leaf budget path spend exactly <code>target</code>?</li><li>Is the org chart height-balanced, or is one team much deeper than the other?</li></ul>
 <h3 id="1-invert-binary-tree">1. Invert binary tree</h3>
 <p>Swap every left/right pair.</p>
+<p><strong>Real-world use:</strong> mirror a warehouse layout or flip a UI tree from LTR to RTL.</p>
 <pre><code class="language-text">    4               4
    / \             / \
   2   7    →      7   2
@@ -216,6 +222,7 @@
 <p><strong>Complexity:</strong> time O(n), extra space O(h) recursion.</p>
 <h3 id="2-sum-of-left-leaves">2. Sum of left leaves</h3>
 <p>A left leaf is a <strong>left child with no children</strong>. Tree <code>3 / 9 20 / 15 7</code> → <code>9 + 15 = 24</code>.</p>
+<p><strong>Real-world use:</strong> sum only the left-side leaf rooms of a building, or left-child SKUs in a catalog tree.</p>
 <pre><code class="language-go">func SumOfLeftLeaves(root *TreeNode) int {
 	if root == nil {
 		return 0
@@ -229,6 +236,7 @@
 <p><strong>Complexity:</strong> time O(n), extra space O(h) recursion.</p>
 <h3 id="3-path-sum">3. Path sum</h3>
 <p>Root-to-<strong>leaf</strong> only. Subtract the node value and ask either child.</p>
+<p><strong>Real-world use:</strong> does any root-to-leaf budget path spend exactly <code>target</code>? Same idea as a bill that must match a receipt.</p>
 <pre><code class="language-go">func HasPathSum(root *TreeNode, targetSum int) bool {
 	if root == nil {
 		return false
@@ -242,6 +250,7 @@
 <p><strong>Complexity:</strong> time O(n), extra space O(h) recursion.</p>
 <h3 id="4-balanced-binary-tree">4. Balanced binary tree</h3>
 <p>Every node’s two subtree heights differ by at most 1. Return height, or <code>-1</code> the moment a subtree is unbalanced, so the scan stays O(n).</p>
+<p><strong>Real-world use:</strong> is one team’s reporting line much deeper than the other? A balanced tree stays fast to search.</p>
 <pre><code class="language-go">func IsBalanced(root *TreeNode) bool {
 	var height func(*TreeNode) int
 	height = func(n *TreeNode) int {
@@ -272,9 +281,11 @@
 <ul><li>Print an org chart floor by floor, or zigzag a seating chart left-right then right-left.</li><li>Shortest number of hops from the CEO to the first individual contributor.</li><li>Which storey of a building has the largest total salary?</li><li>Shortest unweighted path: fewest flights, fewest subway stops.</li></ul>
 <h3 id="1-level-order">1. Level order</h3>
 <p>Same as L10. Tree <code>3 / 9 20 / 15 7</code> → <code>[[3],[9,20],[15,7]]</code>.</p>
+<p><strong>Real-world use:</strong> list everyone on each floor of an org chart before you go downstairs.</p>
 <p><strong>Complexity:</strong> time O(n), extra space O(w) for the queue plus O(n) for the output.</p>
 <h3 id="2-zigzag-level-order">2. Zigzag level order</h3>
 <p>Same levels, reverse the odd ones → <code>[[3],[20,9],[15,7]]</code>.</p>
+<p><strong>Real-world use:</strong> print a seating chart left-to-right, then the next row right-to-left.</p>
 <pre><code class="language-go">func ZigzagLevelOrder(root *TreeNode) [][]int {
 	levels := LevelOrder(root)
 	for i, level := range levels {
@@ -289,6 +300,7 @@
 <p><strong>Complexity:</strong> time O(n), extra space O(w) for the queue plus O(n) for the output.</p>
 <h3 id="3-minimum-depth">3. Minimum depth</h3>
 <p>First leaf the BFS reaches. Not the same as maximum depth on a skewed tree.</p>
+<p><strong>Real-world use:</strong> fewest hops from the CEO to the first individual contributor, or the nearest exit in a building tree.</p>
 <pre><code class="language-go">func MinDepth(root *TreeNode) int {
 	if root == nil {
 		return 0
@@ -315,6 +327,7 @@
 <p><strong>Complexity:</strong> time O(n), extra space O(w) for the queue.</p>
 <h3 id="4-maximum-level-sum">4. Maximum level sum</h3>
 <p>Sum each level. Return the <strong>1-based</strong> level with the largest sum. Ties keep the smaller level index.</p>
+<p><strong>Real-world use:</strong> which storey of a building has the largest total salary, or which depth of a catalog sells the most.</p>
 <pre><code class="language-go">func MaxLevelSum(root *TreeNode) int { /* see solutions.go */ }</code></pre>
 <p><strong>Complexity:</strong> time O(n), extra space O(w) for the queue.</p>
 <hr>
@@ -325,6 +338,7 @@
 <ul><li>Roads, social follows, package dependencies, or pixels in a photo.</li><li>Flood fill: the paint-bucket tool recolors every connected pixel of the same color.</li><li>Rotting oranges: infection or warehouse spoilage spreading minute by minute.</li><li>Matrix if you ask “is there a road from A to B?” in O(1). List if each city has only a few roads.</li></ul>
 <h3 id="1-adjacency-matrix">1. Adjacency matrix</h3>
 <p><code>n x n</code>. <code>m[u][v] = weight</code> (or 1). O(1) edge test, O(n²) space. Good for dense graphs.</p>
+<p><strong>Real-world use:</strong> “is there a direct flight from A to B?” when almost every city pair has a route.</p>
 <pre><code class="language-go">func AdjMatrix(n int, edges [][]int, undirected bool) [][]int {
 	m := make([][]int, n)
 	for i := range m {
@@ -345,6 +359,7 @@
 <p><strong>Complexity:</strong> build time O(n² + m), extra space O(n²). Edge test is O(1).</p>
 <h3 id="2-adjacency-list">2. Adjacency list</h3>
 <p><code>g[u]</code> is the neighbor list. O(n+m) space. Good for sparse graphs and walking neighbors.</p>
+<p><strong>Real-world use:</strong> a road map where each city has only a few roads; walk neighbors without scanning an n×n grid.</p>
 <pre><code class="language-go">func AdjList(n int, edges [][]int, undirected bool) [][][2]int {
 	g := make([][][2]int, n)
 	for _, e := range edges {
@@ -362,6 +377,7 @@
 <p><strong>Complexity:</strong> build time O(n + m), extra space O(n + m). Walking neighbors of <code>u</code> is O(degree(u)).</p>
 <h3 id="3-flood-fill">3. Flood fill</h3>
 <p>4-connected DFS/BFS. Recolor every cell equal to the start color. If the new color equals the start color, do nothing.</p>
+<p><strong>Real-world use:</strong> the paint-bucket tool in a drawing app, or fill a connected region on a map.</p>
 <pre><code class="language-text">1 1 1      2 2 2
 1 1 0  →   2 2 0
 1 0 1      2 0 1</code></pre>
@@ -388,6 +404,7 @@
 <p><strong>Complexity:</strong> time O(rows × cols), extra space O(rows × cols) in the worst DFS stack.</p>
 <h3 id="4-rotting-oranges">4. Rotting oranges</h3>
 <p><code>0</code> empty, <code>1</code> fresh, <code>2</code> rotten. Multi-source BFS: enqueue every rotten orange first. Each BFS layer is one minute. Return <code>-1</code> if a fresh orange remains.</p>
+<p><strong>Real-world use:</strong> infection or warehouse spoilage spreading minute by minute from every already-rotten cell.</p>
 <pre><code class="language-text">2 1 1
 1 1 0   →  4 minutes
 0 1 1</code></pre>
@@ -441,6 +458,7 @@
 <ul><li>Course schedule: finish prerequisites before the next class.</li><li>Build order: compile library A before app B.</li><li>Getting-dressed order: socks before shoes.</li><li>Spreadsheet cells: compute <code>A1</code> before any formula that reads <code>A1</code>.</li></ul>
 <h3 id="1-dfs-stack">1. DFS + stack</h3>
 <p>Visit neighbors first, then push <code>u</code>. Reverse the stack at the end. A back edge to a <strong>gray</strong> node is a cycle.</p>
+<p><strong>Real-world use:</strong> finish every dependency of a package, then emit the package — unless two packages depend on each other.</p>
 <pre><code class="language-go">func TopoSortDFS(n int, edges [][]int) []int {
 	const white, gray, black = 0, 1, 2
 	adj := make([][]int, n)
@@ -481,6 +499,7 @@
 <p><strong>Complexity:</strong> time O(n + m), extra space O(n + m).</p>
 <h3 id="2-kahns-algorithm-bfs">2. Kahn’s algorithm (BFS)</h3>
 <p>Start from indegree 0. Each processed node decrements its neighbors. If you cannot process all nodes, there is a cycle.</p>
+<p><strong>Real-world use:</strong> a build queue: jobs with no remaining prerequisites start first, like a factory line.</p>
 <pre><code class="language-go">func TopoSortKahn(n int, edges [][]int) []int {
 	indeg := make([]int, n)
 	adj := make([][]int, n)
@@ -513,6 +532,7 @@
 <p><strong>Complexity:</strong> time O(n + m), extra space O(n + m).</p>
 <h3 id="3-course-schedule">3. Course schedule</h3>
 <p><code>prerequisites[i] = [course, pre]</code> means <code>pre → course</code>. Possible iff a topo order exists.</p>
+<p><strong>Real-world use:</strong> can a student finish the degree, or is there a cycle such as “A needs B and B needs A”?</p>
 <p><code>numCourses=2</code>, <code>[[1,0]]</code> → true. <code>[[1,0],[0,1]]</code> → false.</p>
 <pre><code class="language-go">func CanFinish(numCourses int, prerequisites [][]int) bool {
 	edges := make([][]int, len(prerequisites))

@@ -110,6 +110,7 @@
 <table><thead><tr><th>Sort</th><th>Best</th><th>Average</th><th>Worst</th><th>Extra space</th><th>Stable?</th></tr></thead><tbody><tr><td>Bubble</td><td>O(n) with swap flag</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>yes</td></tr><tr><td>Selection</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>no</td></tr><tr><td>Insertion</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>yes</td></tr><tr><td>Merge</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td><td>yes if <code>&lt;=</code></td></tr><tr><td>Quick</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n²)</td><td>O(log n) stack</td><td>no</td></tr></tbody></table>
 <h3 id="1-bubble-sort">1. Bubble sort</h3>
 <p>Walk adjacent pairs. After pass <code>i</code>, the largest remaining value is at the end. If a pass makes no swaps, stop.</p>
+<p><strong>Real-world use:</strong> teaching sort, or a tiny almost-sorted list (one swap left) where the early-exit flag helps.</p>
 <p>Video array: <code>[5,6,1,3]</code></p>
 <ol><li><code>5,6</code> already ordered. <code>6,1</code> swap → <code>[5,1,6,3]</code>. <code>6,3</code> swap → <code>[5,1,3,6]</code>.</li><li><code>5,1</code> swap → <code>[1,5,3,6]</code>. <code>5,3</code> swap → <code>[1,3,5,6]</code>.</li><li><code>1,3</code> already ordered. No more inversions.</li></ol>
 <pre><code class="language-go">func BubbleSort(nums []int) {
@@ -129,6 +130,7 @@
 <p><strong>Complexity:</strong> time O(n²) worst/average, O(n) if already sorted. Extra space O(1).</p>
 <h3 id="2-selection-sort">2. Selection sort</h3>
 <p>For each index <code>i</code>, find the minimum in <code>nums[i:]</code> and swap it into place. Always n-1 + n-2 + … scans, so always O(n²).</p>
+<p><strong>Real-world use:</strong> pick 1st, 2nd, 3rd place from a small contest when you want few swaps (at most one per position).</p>
 <p>Video array: <code>[64,25,12,22,11]</code></p>
 <table><thead><tr><th>i</th><th>min of suffix</th><th>after swap</th></tr></thead><tbody><tr><td>0</td><td>11</td><td><code>[11,25,12,22,64]</code></td></tr><tr><td>1</td><td>12</td><td><code>[11,12,25,22,64]</code></td></tr><tr><td>2</td><td>22</td><td><code>[11,12,22,25,64]</code></td></tr><tr><td>3</td><td>25</td><td><code>[11,12,22,25,64]</code></td></tr></tbody></table>
 <pre><code class="language-go">func SelectionSort(nums []int) {
@@ -145,6 +147,7 @@
 <p><strong>Complexity:</strong> time O(n²) in every case. Extra space O(1).</p>
 <h3 id="3-insertion-sort">3. Insertion sort</h3>
 <p><code>nums[:i]</code> is already sorted. Pull <code>key = nums[i]</code> left until it sits in order. Good on nearly sorted input.</p>
+<p><strong>Real-world use:</strong> inserting one new card into a sorted hand, or one new email into an already-sorted inbox.</p>
 <p>Video array: <code>[12,11,13,5,6]</code></p>
 <table><thead><tr><th>key</th><th>sorted prefix after insert</th></tr></thead><tbody><tr><td>11</td><td><code>[11,12,13,5,6]</code></td></tr><tr><td>13</td><td><code>[11,12,13,5,6]</code></td></tr><tr><td>5</td><td><code>[5,11,12,13,6]</code></td></tr><tr><td>6</td><td><code>[5,6,11,12,13]</code></td></tr></tbody></table>
 <pre><code class="language-go">func InsertionSort(nums []int) {
@@ -161,6 +164,7 @@
 <p><strong>Complexity:</strong> time O(n²) worst/average, O(n) if already sorted. Extra space O(1).</p>
 <h3 id="4-merge-sort">4. Merge sort</h3>
 <p>Split until one element, then merge two sorted halves with two pointers. Reuse one temp slice.</p>
+<p><strong>Real-world use:</strong> merge two already-sorted customer lists, or an external sort when each half lives in a file.</p>
 <p>Video array: <code>[38,27,43,10]</code></p>
 <pre><code class="language-text">[38,27,43,10]
   [38,27]     [43,10]
@@ -198,6 +202,7 @@
 <p><strong>Complexity:</strong> time O(n log n) always. Extra space O(n) for <code>tmp</code> plus O(log n) recursion.</p>
 <h3 id="5-quick-sort-lomuto-last-element-is-pivot">5. Quick sort (Lomuto, last element is pivot)</h3>
 <p>The video partitions around a pivot: smaller values left, larger values right, then recurse. Walkthrough: <code>[10,80,30,90,40]</code>, pivot <code>40</code>.</p>
+<p><strong>Real-world use:</strong> the usual in-memory sort when you can pick a pivot; also “partition around a threshold” (cheap vs expensive items).</p>
 <ol><li>Scan <code>10,80,30,90</code>. Values <code>&lt;= 40</code> are packed to the front: <code>10</code>, then <code>30</code>.</li><li>Swap pivot into the hole → <code>[10,30,40,90,80]</code>.</li><li>Recurse on <code>[10,30]</code> and <code>[90,80]</code>.</li></ol>
 <p>Worst case is already-sorted input with this pivot rule (O(n²)). Average is O(n log n).</p>
 <pre><code class="language-go">func QuickSort(nums []int) {
@@ -225,6 +230,7 @@ func lomutoPartition(nums []int, lo, hi int) int {
 <ul><li>Phone book, session store, or “have I seen this user id?”</li><li>Count how often each product appears in an order file.</li><li>Match a login pattern (<code>abba</code>) to words (<code>dog cat cat dog</code>).</li><li>Group anagrams: <code>eat</code>, <code>tea</code>, and <code>ate</code> share one pantry shelf.</li></ul>
 <h3 id="1-internal-working-separate-chaining">1. Internal working — separate chaining</h3>
 <p>Video example: <code>John→25</code>, <code>Tom→30</code>, then update <code>John→40</code>.</p>
+<p><strong>Real-world use:</strong> a phone book or session store: same name updates the age; two names that hash to one shelf share a chain.</p>
 <pre><code class="language-go">type ChainHashMap struct {
 	buckets []*chainEntry
 }
@@ -242,6 +248,7 @@ func (m *ChainHashMap) Put(key, value string) {
 <p><strong>Complexity:</strong> average get/put time O(1), extra space O(n + buckets). A bad hash or many collisions degrades to O(n) time.</p>
 <h3 id="2-frequency-count">2. Frequency count</h3>
 <p><code>&quot;abcabc&quot;</code> → <code>a:2 b:2 c:2</code>.</p>
+<p><strong>Real-world use:</strong> how many times each SKU, error code, or word appears in a log.</p>
 <pre><code class="language-go">func CharFrequency(s string) map[rune]int {
 	freq := map[rune]int{}
 	for _, ch := range s {
@@ -252,6 +259,7 @@ func (m *ChainHashMap) Put(key, value string) {
 <p><strong>Complexity:</strong> time O(n), extra space O(u) for distinct characters.</p>
 <h3 id="3-two-sum-unsorted">3. Two Sum (unsorted)</h3>
 <p>Look up <code>target-current</code> <strong>before</strong> storing the current index so one element is not used twice.</p>
+<p><strong>Real-world use:</strong> two cart items that add to a gift-card amount, when the list is not sorted.</p>
 <pre><code class="language-go">func TwoSum(nums []int, target int) []int {
 	seen := map[int]int{}
 	for i, v := range nums {
@@ -265,6 +273,7 @@ func (m *ChainHashMap) Put(key, value string) {
 <p><strong>Complexity:</strong> time O(n), extra space O(n).</p>
 <h3 id="4-word-pattern">4. Word Pattern</h3>
 <p>Both directions must match. <code>abba</code> / <code>dog cat cat dog</code> is true. <code>abba</code> / <code>dog cat cat fish</code> is false. <code>abba</code> / <code>dog dog dog dog</code> is false (two letters, one word).</p>
+<p><strong>Real-world use:</strong> a cipher or template: pattern <code>abba</code> must map 1-to-1 onto words, like a rhyme scheme.</p>
 <pre><code class="language-go">func WordPattern(pattern, s string) bool {
 	words := strings.Fields(s)
 	if len(words) != len(pattern) {
@@ -287,6 +296,7 @@ func (m *ChainHashMap) Put(key, value string) {
 <p><strong>Complexity:</strong> time O(n), extra space O(n) for the two maps.</p>
 <h3 id="5-valid-anagram">5. Valid Anagram</h3>
 <p><code>&quot;anagram&quot;</code> and <code>&quot;nagaram&quot;</code>. Increment for <code>s</code>, decrement for <code>t</code>. Every bucket must finish at 0.</p>
+<p><strong>Real-world use:</strong> two product names that use the same letters, or two bags of letter tiles that match.</p>
 <pre><code class="language-go">func IsAnagram(s, t string) bool {
 	if len(s) != len(t) {
 		return false
@@ -306,6 +316,7 @@ func (m *ChainHashMap) Put(key, value string) {
 <p><strong>Complexity:</strong> time O(n), extra space O(1) — the 26 counters do not grow with n.</p>
 <h3 id="6-group-anagrams">6. Group Anagrams</h3>
 <p>Video uses the sorted word as the key and mentions a 26-count signature as the faster homework. The Go code uses the count key.</p>
+<p><strong>Real-world use:</strong> put <code>eat</code>, <code>tea</code>, and <code>ate</code> on one pantry shelf; group anagrams in a word game.</p>
 <p>Input: <code>eat tea tan ate nat bat</code> → <code>{ate,eat,tea}</code>, <code>{nat,tan}</code>, <code>{bat}</code>.</p>
 <pre><code class="language-go">func GroupAnagrams(strs []string) [][]string {
 	groups := map[[26]int][]string{}
@@ -331,6 +342,7 @@ func (m *ChainHashMap) Put(key, value string) {
 <ul><li>Browser Back, editor Undo, plate stacks in a canteen.</li><li>Check that every <code>(</code>, <code>[</code>, <code>{</code> in a config file has a matching closer.</li><li>Next warmer day: for each temperature, the first later day that is hotter.</li><li>Resolve <code>..</code> in a file path: <code>/home/user/docs/../pictures</code> → <code>/home/user/pictures</code>.</li></ul>
 <h3 id="1-valid-parentheses">1. Valid parentheses</h3>
 <p>Push an opener. A closer must match the top. The stack must be empty at the end.</p>
+<p><strong>Real-world use:</strong> a linter for <code>(</code>, <code>[</code>, <code>{</code> in code, JSON, or a config file.</p>
 <pre><code class="language-go">func IsValidParentheses(s string) bool {
 	pairs := map[byte]byte{&#x27;)&#x27;: &#x27;(&#x27;, &#x27;]&#x27;: &#x27;[&#x27;, &#x27;}&#x27;: &#x27;{&#x27;}
 	stack := []byte{}
@@ -349,6 +361,7 @@ func (m *ChainHashMap) Put(key, value string) {
 <p><strong>Complexity:</strong> time O(n), extra space O(n).</p>
 <h3 id="2-next-greater-element-i">2. Next Greater Element I</h3>
 <p><code>nums1=[4,1,2]</code>, <code>nums2=[1,3,4,2]</code> → <code>[-1,3,-1]</code>.</p>
+<p><strong>Real-world use:</strong> next warmer day for each temperature, or the next higher stock price after today.</p>
 <p>Scan <code>nums2</code> left to right. Keep a <strong>decreasing</strong> stack. When the current value is larger, it is the next greater of every popped value. Leftovers map to <code>-1</code>.</p>
 <pre><code class="language-go">func NextGreaterElement(nums1, nums2 []int) []int {
 	next := map[int]int{}
@@ -372,6 +385,7 @@ func (m *ChainHashMap) Put(key, value string) {
 <p><strong>Complexity:</strong> time O(n + m), extra space O(n). <code>n = len(nums2)</code>, <code>m = len(nums1)</code>.</p>
 <h3 id="3-simplify-path">3. Simplify path</h3>
 <p><code>/home/user/documents/../pictures</code> → <code>/home/user/pictures</code>.</p>
+<p><strong>Real-world use:</strong> resolve <code>..</code> and extra slashes in a file path or a URL path.</p>
 <p>Split on <code>/</code>. Ignore empty and <code>.</code>. <code>..</code> pops if the stack is not empty (never climb above root).</p>
 <pre><code class="language-go">func SimplifyPath(path string) string {
 	stack := []string{}
@@ -397,6 +411,7 @@ func (m *ChainHashMap) Put(key, value string) {
 <ul><li>Ticket counter, printer queue, or a support inbox.</li><li>Two stacks can fake a queue when your language has no built-in one.</li><li>Walk a company org chart level by level (everyone on floor 3 before floor 4).</li><li>Keep the k best scores with a small heap acting as a priority queue.</li></ul>
 <h3 id="1-queue-using-two-stacks">1. Queue using two stacks</h3>
 <p>Push onto <code>in</code>. Pop/peek from <code>out</code>. Transfer <code>in → out</code> only when <code>out</code> is empty, so older values stay in front.</p>
+<p><strong>Real-world use:</strong> a FIFO ticket line when you only have two stacks (or two undo lists) to work with.</p>
 <p>Sequence: push <code>10,11,12</code>, pop <code>10</code>, then later push <code>14</code>.</p>
 <pre><code class="language-go">type MyQueue struct{ in, out []int }
 
@@ -423,6 +438,7 @@ func (q *MyQueue) Pop() int {
 <p><strong>Complexity:</strong> push/pop/peek amortized time O(1), worst-case transfer O(n). Extra space O(n).</p>
 <h3 id="2-binary-tree-level-order">2. Binary tree level order</h3>
 <p>Tree <code>3 / 9 20 / 15 7</code> → <code>[[3],[9,20],[15,7]]</code>. Capture the current queue length before enqueueing children.</p>
+<p><strong>Real-world use:</strong> print an org chart floor by floor, or list everyone on each storey of a building.</p>
 <pre><code class="language-go">func LevelOrder(root *TreeNode) [][]int {
 	if root == nil {
 		return [][]int{}
@@ -450,6 +466,7 @@ func (q *MyQueue) Pop() int {
 <p><strong>Complexity:</strong> time O(n), extra space O(w) for the queue plus O(n) for the output. <code>w</code> is the widest level.</p>
 <h3 id="3-kth-largest-size-k-min-heap">3. Kth largest — size-<code>k</code> min-heap</h3>
 <p>Spoken example: second largest is <code>5</code> (array <code>[3,2,1,5,6,4]</code>, <code>k=2</code>). The heap root is the kth largest.</p>
+<p><strong>Real-world use:</strong> the 2nd-highest score, or keep only the top-k bids without sorting the whole list.</p>
 <pre><code class="language-go">func FindKthLargest(nums []int, k int) int {
 	h := minIntHeap(append([]int(nil), nums[:k]...))
 	heap.Init(&amp;h)
@@ -471,6 +488,7 @@ func (q *MyQueue) Pop() int {
 <p>Index math: left <code>2*i+1</code>, right <code>2*i+2</code>, parent <code>(i-1)/2</code>.</p>
 <h3 id="1-heap-up-insert-and-heap-down-remove-root">1. Heap-up (insert) and heap-down (remove root)</h3>
 <p>Video insert: push <code>2</code> into a min-heap <code>[1,3,6,5,9,8]</code> and swap it toward the root until the parent is smaller.</p>
+<p><strong>Real-world use:</strong> a new support ticket bubbles up if it is more urgent; closing the top ticket lets the next one sink into place.</p>
 <p>Video remove: move the last leaf to the root, then swap down with the smaller child.</p>
 <pre><code class="language-go">func (h *IntMinHeap) Push(v int) {
 	h.data = append(h.data, v)
@@ -508,6 +526,7 @@ func (h *IntMinHeap) heapDown(i int) {
 <p><strong>Complexity:</strong> insert or remove-root time O(log n). Peek time O(1). Extra space O(n) for the array.</p>
 <h3 id="2-heap-sort">2. Heap sort</h3>
 <p>Build a max-heap, then swap the root to the end and heap-down the reduced prefix.</p>
+<p><strong>Real-world use:</strong> sort in place when you cannot spare a merge-sort buffer, such as a small embedded device.</p>
 <pre><code class="language-go">func HeapSort(nums []int) {
 	n := len(nums)
 	for i := n/2 - 1; i &gt;= 0; i-- {
@@ -521,10 +540,12 @@ func (h *IntMinHeap) heapDown(i int) {
 <p><strong>Complexity:</strong> time O(n log n), extra space O(1).</p>
 <h3 id="3-top-k-frequent">3. Top K frequent</h3>
 <p><code>[1,1,1,2,2,3]</code>, <code>k=2</code> → <code>{1,2}</code>. Count frequencies, keep a min-heap of size <code>k</code> ordered by frequency.</p>
+<p><strong>Real-world use:</strong> top 2 error codes in a log, or the k most-played songs this week.</p>
 <pre><code class="language-go">func TopKFrequent(nums []int, k int) []int { /* see solutions.go */ }</code></pre>
 <p><strong>Complexity:</strong> time O(n + u log k), extra space O(u + k). <code>u</code> is the number of unique values.</p>
 <h3 id="4-kth-smallest-in-a-sorted-matrix">4. Kth smallest in a sorted matrix</h3>
 <p>Video matrix <code>[[1,5,9],[10,11,13],[12,13,15]]</code>. Push every cell into a size-<code>k</code> max-heap. The root is the kth smallest. For <code>k=8</code> the answer is <code>13</code>.</p>
+<p><strong>Real-world use:</strong> the 8th-cheapest cell in a sorted price grid (rows and columns already increase).</p>
 <pre><code class="language-go">func KthSmallestMatrix(matrix [][]int, k int) int {
 	h := maxIntHeap{}
 	for _, row := range matrix {
@@ -546,6 +567,7 @@ func (h *IntMinHeap) heapDown(i int) {
 <ul><li>Merge sorted logs from many servers into one timeline.</li><li>Combine k sorted customer lists without concatenating and re-sorting.</li><li>First k cheapest hotel + flight pairs from two sorted price lists.</li><li>External sort: merge sorted runs that no longer fit in memory.</li></ul>
 <h3 id="1-merge-two-sorted-arrays">1. Merge two sorted arrays</h3>
 <p><code>[1,2,3]</code> and <code>[2,4,5]</code> → <code>[1,2,2,3,4,5]</code>. Two pointers, take the smaller head.</p>
+<p><strong>Real-world use:</strong> merge two sorted attendance lists or two sorted price feeds into one timeline.</p>
 <pre><code class="language-go">func MergeTwoSorted(a, b []int) []int {
 	out := make([]int, 0, len(a)+len(b))
 	i, j := 0, 0
@@ -565,10 +587,12 @@ func (h *IntMinHeap) heapDown(i int) {
 <p><strong>Complexity:</strong> time O(n + m), extra space O(n + m) for the output.</p>
 <h3 id="2-merge-k-sorted-lists">2. Merge K sorted lists</h3>
 <p>Lists <code>[1,4,5]</code>, <code>[1,3,4]</code>, <code>[2,6]</code>. Min-heap of list heads. Pop the smallest, push its <code>Next</code>. Time O(N log k).</p>
+<p><strong>Real-world use:</strong> merge logs from k servers, or k sorted customer lists, without concatenating and re-sorting.</p>
 <pre><code class="language-go">func MergeKLists(lists []*ListNode) *ListNode { /* see solutions.go */ }</code></pre>
 <p><strong>Complexity:</strong> time O(N log k), extra space O(k) for the heap. <code>N</code> is the total number of nodes.</p>
 <h3 id="3-k-pairs-with-smallest-sums">3. K pairs with smallest sums</h3>
 <p><code>nums1=[1,7,11]</code>, <code>nums2=[2,4,6]</code>, <code>k=3</code> → <code>[1,2],[1,4],[1,6]</code>.</p>
+<p><strong>Real-world use:</strong> the k cheapest hotel + flight pairs when both price lists are already sorted.</p>
 <p>Seed <code>(i,0)</code> for the first <code>min(len(nums1),k)</code> rows. Pop the smallest sum, then push <code>(i, j+1)</code>.</p>
 <pre><code class="language-go">func KSmallestPairs(nums1, nums2 []int, k int) [][]int {
 	h := &amp;pairHeap{}
