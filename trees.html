@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>L14–L19 Trees &amp; Graphs — 25 DSA Patterns in Go</title>
+  <style>
+    :root {
+      --bg: #f6f4ef;
+      --panel: #fffdf8;
+      --ink: #1b1a17;
+      --muted: #5c574e;
+      --line: #e4ddd0;
+      --accent: #0f6b4c;
+      --code-bg: #1e2430;
+      --code-ink: #e8eef7;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: auto;
+      padding: 1.4rem 1.1rem 2rem;
+      background: #1e2430;
+      color: #e8eef7;
+    }
+    nav a { color: #d7e4da; text-decoration: none; }
+    nav a:hover { color: #fff; }
+    nav h1 { font-size: 1.05rem; margin: 0 0 .4rem; }
+    nav p { color: #a8b3c4; font-size: .85rem; margin: 0 0 1.1rem; }
+    nav .page {
+      display: block;
+      padding: .45rem .55rem;
+      border-radius: 8px;
+      margin-bottom: .25rem;
+    }
+    nav .page.active { background: #2d384c; color: #fff; }
+    nav .toc { margin: .7rem 0 1rem .4rem; padding: 0; list-style: none; }
+    nav .toc a { display: block; font-size: .8rem; color: #b7c2d3; padding: .18rem 0; }
+    main { padding: 2rem 2.4rem 4rem; max-width: 920px; }
+    main h1 { font-size: 2rem; margin-top: 0; }
+    main h2 { margin-top: 2.2rem; padding-top: .4rem; border-top: 1px solid var(--line); }
+    main h3 { margin-top: 1.6rem; color: var(--accent); }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: .95rem; }
+    th, td { border: 1px solid var(--line); padding: .45rem .6rem; text-align: left; vertical-align: top; }
+    th { background: #efe8da; }
+    pre {
+      background: var(--code-bg);
+      color: var(--code-ink);
+      padding: 1rem 1.1rem;
+      overflow-x: auto;
+      border-radius: 10px;
+      font-size: .86rem;
+      line-height: 1.45;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .88em;
+    }
+    :not(pre) > code {
+      background: #efe8da;
+      padding: .1rem .35rem;
+      border-radius: 4px;
+    }
+    a { color: var(--accent); }
+    hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
+    .banner {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: .8rem 1rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 860px) {
+      .layout { grid-template-columns: 1fr; }
+      nav { position: relative; height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav>
+      <h1>25 DSA Patterns</h1>
+      <p>Go study notes from the Itsruntym playlist.</p>
+      <a class="page" href="index.html">25 DSA Patterns</a><a class="page" href="linear.html">L1–L6 Linear</a><a class="page" href="structures.html">L7–L12 Data Structures</a><a class="page active" href="trees.html">L14–L19 Trees &amp; Graphs</a><ul class="toc"><li style="padding-left:0"><a href="#l14-trees-and-traversals">L14. Trees and Traversals</a></li><li style="padding-left:.9rem"><a href="#1-inorder-left-node-right">1. Inorder — left, node, right</a></li><li style="padding-left:.9rem"><a href="#2-preorder-node-left-right">2. Preorder — node, left, right</a></li><li style="padding-left:.9rem"><a href="#3-postorder-left-right-node">3. Postorder — left, right, node</a></li><li style="padding-left:.9rem"><a href="#4-maximum-depth">4. Maximum depth</a></li><li style="padding-left:.9rem"><a href="#5-same-tree">5. Same tree</a></li><li style="padding-left:0"><a href="#l15-dfs-on-trees">L15. DFS on Trees</a></li><li style="padding-left:.9rem"><a href="#1-invert-binary-tree">1. Invert binary tree</a></li><li style="padding-left:.9rem"><a href="#2-sum-of-left-leaves">2. Sum of left leaves</a></li><li style="padding-left:.9rem"><a href="#3-path-sum">3. Path sum</a></li><li style="padding-left:.9rem"><a href="#4-balanced-binary-tree">4. Balanced binary tree</a></li><li style="padding-left:0"><a href="#l16-bfs-on-trees">L16. BFS on Trees</a></li><li style="padding-left:.9rem"><a href="#1-level-order">1. Level order</a></li><li style="padding-left:.9rem"><a href="#2-zigzag-level-order">2. Zigzag level order</a></li><li style="padding-left:.9rem"><a href="#3-minimum-depth">3. Minimum depth</a></li><li style="padding-left:.9rem"><a href="#4-maximum-level-sum">4. Maximum level sum</a></li><li style="padding-left:0"><a href="#l17-graphs">L17. Graphs</a></li><li style="padding-left:.9rem"><a href="#1-adjacency-matrix">1. Adjacency matrix</a></li><li style="padding-left:.9rem"><a href="#2-adjacency-list">2. Adjacency list</a></li><li style="padding-left:.9rem"><a href="#3-flood-fill">3. Flood fill</a></li><li style="padding-left:.9rem"><a href="#4-rotting-oranges">4. Rotting oranges</a></li><li style="padding-left:0"><a href="#l18-dijkstra">L18. Dijkstra</a></li><li style="padding-left:0"><a href="#l19-topological-sort">L19. Topological Sort</a></li><li style="padding-left:.9rem"><a href="#1-dfs-stack">1. DFS + stack</a></li><li style="padding-left:.9rem"><a href="#2-kahns-algorithm-bfs">2. Kahn’s algorithm (BFS)</a></li><li style="padding-left:.9rem"><a href="#3-course-schedule">3. Course schedule</a></li></ul><a class="page" href="advanced.html">L20–L25 Advanced</a>
+    </nav>
+    <main>
+      <div class="banner">Local site for the markdown notes. Code lives in the Go files next to these pages.</div>
+      <h1 id="l14l19-trees-and-graphs">L14–L19 Trees and Graphs</h1>
+<p>The creator’s written “25 patterns” list also names Union Find as pattern 19. In this playlist, L19 is topological sort.</p>
+<hr>
+<h2 id="l14-trees-and-traversals">L14. Trees and Traversals</h2>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=SsgqcCmBkJA">L14. Trees</a> (48:10)</li><li>A tree is a connected acyclic graph with one root. Binary tree: at most two children. BST: left &lt; node &lt; right.</li></ul>
+<p>Use this tree for the walk-throughs:</p>
+<pre><code class="language-text">    1
+   / \
+  2   3</code></pre>
+<h3 id="1-inorder-left-node-right">1. Inorder — left, node, right</h3>
+<p>BST values come out sorted. Result: <code>[2,1,3]</code>.</p>
+<pre><code class="language-go">func InorderTraversal(root *TreeNode) []int {
+	var out []int
+	var walk func(*TreeNode)
+	walk = func(n *TreeNode) {
+		if n == nil {
+			return
+		}
+		walk(n.Left)
+		out = append(out, n.Val)
+		walk(n.Right)
+	}
+	walk(root)
+	return out
+}</code></pre>
+<h3 id="2-preorder-node-left-right">2. Preorder — node, left, right</h3>
+<p>Useful to clone or serialize. Result: <code>[1,2,3]</code>.</p>
+<pre><code class="language-go">func PreorderTraversal(root *TreeNode) []int {
+	var out []int
+	var walk func(*TreeNode)
+	walk = func(n *TreeNode) {
+		if n == nil {
+			return
+		}
+		out = append(out, n.Val)
+		walk(n.Left)
+		walk(n.Right)
+	}
+	walk(root)
+	return out
+}</code></pre>
+<h3 id="3-postorder-left-right-node">3. Postorder — left, right, node</h3>
+<p>Children finish first. Result: <code>[2,3,1]</code>.</p>
+<pre><code class="language-go">func PostorderTraversal(root *TreeNode) []int {
+	var out []int
+	var walk func(*TreeNode)
+	walk = func(n *TreeNode) {
+		if n == nil {
+			return
+		}
+		walk(n.Left)
+		walk(n.Right)
+		out = append(out, n.Val)
+	}
+	walk(root)
+	return out
+}</code></pre>
+<h3 id="4-maximum-depth">4. Maximum depth</h3>
+<p>Empty tree is 0. Otherwise <code>1 + max(left, right)</code>.</p>
+<pre><code class="language-text">    3
+   / \
+  9  20
+    /  \
+   15   7</code></pre>
+<p>Depth is 3.</p>
+<pre><code class="language-go">func MaxDepth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	left, right := MaxDepth(root.Left), MaxDepth(root.Right)
+	if left &gt; right {
+		return left + 1
+	}
+	return right + 1
+}</code></pre>
+<h3 id="5-same-tree">5. Same tree</h3>
+<p>Same shape and same values.</p>
+<pre><code class="language-go">func IsSameTree(p, q *TreeNode) bool {
+	if p == nil || q == nil {
+		return p == q
+	}
+	return p.Val == q.Val &amp;&amp;
+		IsSameTree(p.Left, q.Left) &amp;&amp;
+		IsSameTree(p.Right, q.Right)
+}</code></pre>
+<hr>
+<h2 id="l15-dfs-on-trees">L15. DFS on Trees</h2>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=9oAECTcceD4">L15. DFS</a> (51:44)</li><li>Go as deep as possible, then backtrack. Each problem is “recurse on children, then decide”.</li></ul>
+<h3 id="1-invert-binary-tree">1. Invert binary tree</h3>
+<p>Swap every left/right pair.</p>
+<pre><code class="language-text">    4               4
+   / \             / \
+  2   7    →      7   2
+ / \ / \         / \ / \
+1  3 6  9       9  6 3  1</code></pre>
+<pre><code class="language-go">func InvertTree(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	root.Left, root.Right = InvertTree(root.Right), InvertTree(root.Left)
+	return root
+}</code></pre>
+<h3 id="2-sum-of-left-leaves">2. Sum of left leaves</h3>
+<p>A left leaf is a <strong>left child with no children</strong>. Tree <code>3 / 9 20 / 15 7</code> → <code>9 + 15 = 24</code>.</p>
+<pre><code class="language-go">func SumOfLeftLeaves(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	sum := 0
+	if root.Left != nil &amp;&amp; root.Left.Left == nil &amp;&amp; root.Left.Right == nil {
+		sum += root.Left.Val
+	}
+	return sum + SumOfLeftLeaves(root.Left) + SumOfLeftLeaves(root.Right)
+}</code></pre>
+<h3 id="3-path-sum">3. Path sum</h3>
+<p>Root-to-<strong>leaf</strong> only. Subtract the node value and ask either child.</p>
+<pre><code class="language-go">func HasPathSum(root *TreeNode, targetSum int) bool {
+	if root == nil {
+		return false
+	}
+	if root.Left == nil &amp;&amp; root.Right == nil {
+		return root.Val == targetSum
+	}
+	remain := targetSum - root.Val
+	return HasPathSum(root.Left, remain) || HasPathSum(root.Right, remain)
+}</code></pre>
+<h3 id="4-balanced-binary-tree">4. Balanced binary tree</h3>
+<p>Every node’s two subtree heights differ by at most 1. Return height, or <code>-1</code> the moment a subtree is unbalanced, so the scan stays O(n).</p>
+<pre><code class="language-go">func IsBalanced(root *TreeNode) bool {
+	var height func(*TreeNode) int
+	height = func(n *TreeNode) int {
+		if n == nil {
+			return 0
+		}
+		left := height(n.Left)
+		if left &lt; 0 {
+			return -1
+		}
+		right := height(n.Right)
+		if right &lt; 0 || left-right &gt; 1 || right-left &gt; 1 {
+			return -1
+		}
+		if left &gt; right {
+			return left + 1
+		}
+		return right + 1
+	}
+	return height(root) &gt;= 0
+}</code></pre>
+<hr>
+<h2 id="l16-bfs-on-trees">L16. BFS on Trees</h2>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=AcPSaITm-M8">L16. BFS</a> (34:24)</li><li>Queue + “process exactly the current level size”.</li></ul>
+<h3 id="1-level-order">1. Level order</h3>
+<p>Same as L10. Tree <code>3 / 9 20 / 15 7</code> → <code>[[3],[9,20],[15,7]]</code>.</p>
+<h3 id="2-zigzag-level-order">2. Zigzag level order</h3>
+<p>Same levels, reverse the odd ones → <code>[[3],[20,9],[15,7]]</code>.</p>
+<pre><code class="language-go">func ZigzagLevelOrder(root *TreeNode) [][]int {
+	levels := LevelOrder(root)
+	for i, level := range levels {
+		if i%2 == 1 {
+			for l, r := 0, len(level)-1; l &lt; r; l, r = l+1, r-1 {
+				level[l], level[r] = level[r], level[l]
+			}
+		}
+	}
+	return levels
+}</code></pre>
+<h3 id="3-minimum-depth">3. Minimum depth</h3>
+<p>First leaf the BFS reaches. Not the same as maximum depth on a skewed tree.</p>
+<pre><code class="language-go">func MinDepth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	queue := []*TreeNode{root}
+	for depth, head := 1, 0; head &lt; len(queue); depth++ {
+		size := len(queue) - head
+		for i := 0; i &lt; size; i++ {
+			n := queue[head]
+			head++
+			if n.Left == nil &amp;&amp; n.Right == nil {
+				return depth
+			}
+			if n.Left != nil {
+				queue = append(queue, n.Left)
+			}
+			if n.Right != nil {
+				queue = append(queue, n.Right)
+			}
+		}
+	}
+	return 0
+}</code></pre>
+<h3 id="4-maximum-level-sum">4. Maximum level sum</h3>
+<p>Sum each level. Return the <strong>1-based</strong> level with the largest sum. Ties keep the smaller level index.</p>
+<pre><code class="language-go">func MaxLevelSum(root *TreeNode) int { /* see solutions.go */ }</code></pre>
+<hr>
+<h2 id="l17-graphs">L17. Graphs</h2>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=wEmaD49evoM">L17. Graph Representation</a> (56:34)</li><li>Directed vs undirected, weighted vs unweighted. A grid is a graph whose neighbors are adjacent cells.</li></ul>
+<h3 id="1-adjacency-matrix">1. Adjacency matrix</h3>
+<p><code>n x n</code>. <code>m[u][v] = weight</code> (or 1). O(1) edge test, O(n²) space. Good for dense graphs.</p>
+<pre><code class="language-go">func AdjMatrix(n int, edges [][]int, undirected bool) [][]int {
+	m := make([][]int, n)
+	for i := range m {
+		m[i] = make([]int, n)
+	}
+	for _, e := range edges {
+		u, v, w := e[0], e[1], 1
+		if len(e) &gt; 2 {
+			w = e[2]
+		}
+		m[u][v] = w
+		if undirected {
+			m[v][u] = w
+		}
+	}
+	return m
+}</code></pre>
+<h3 id="2-adjacency-list">2. Adjacency list</h3>
+<p><code>g[u]</code> is the neighbor list. O(n+m) space. Good for sparse graphs and walking neighbors.</p>
+<pre><code class="language-go">func AdjList(n int, edges [][]int, undirected bool) [][][2]int {
+	g := make([][][2]int, n)
+	for _, e := range edges {
+		u, v, w := e[0], e[1], 1
+		if len(e) &gt; 2 {
+			w = e[2]
+		}
+		g[u] = append(g[u], [2]int{v, w})
+		if undirected {
+			g[v] = append(g[v], [2]int{u, w})
+		}
+	}
+	return g
+}</code></pre>
+<h3 id="3-flood-fill">3. Flood fill</h3>
+<p>4-connected DFS/BFS. Recolor every cell equal to the start color. If the new color equals the start color, do nothing.</p>
+<pre><code class="language-text">1 1 1      2 2 2
+1 1 0  →   2 2 0
+1 0 1      2 0 1</code></pre>
+<p>Start <code>(1,1)</code>, color <code>2</code>.</p>
+<pre><code class="language-go">func FloodFill(image [][]int, sr, sc, color int) [][]int {
+	start := image[sr][sc]
+	if start == color {
+		return image
+	}
+	var dfs func(r, c int)
+	dfs = func(r, c int) {
+		if r &lt; 0 || c &lt; 0 || r &gt;= len(image) || c &gt;= len(image[0]) || image[r][c] != start {
+			return
+		}
+		image[r][c] = color
+		dfs(r+1, c)
+		dfs(r-1, c)
+		dfs(r, c+1)
+		dfs(r, c-1)
+	}
+	dfs(sr, sc)
+	return image
+}</code></pre>
+<h3 id="4-rotting-oranges">4. Rotting oranges</h3>
+<p><code>0</code> empty, <code>1</code> fresh, <code>2</code> rotten. Multi-source BFS: enqueue every rotten orange first. Each BFS layer is one minute. Return <code>-1</code> if a fresh orange remains.</p>
+<pre><code class="language-text">2 1 1
+1 1 0   →  4 minutes
+0 1 1</code></pre>
+<pre><code class="language-go">func OrangesRotting(grid [][]int) int { /* see solutions.go */ }</code></pre>
+<hr>
+<h2 id="l18-dijkstra">L18. Dijkstra</h2>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=H0zJo07uo54">L18. Dijkstra</a> (35:12)</li><li>Shortest path from one source on a graph with <strong>non-negative</strong> weights. Output is a distance array.</li></ul>
+<p>Idea:</p>
+<ol><li><code>dist[src] = 0</code>, others <code>+inf</code>.</li><li>Min-heap of <code>(node, dist)</code>.</li><li>Pop the closest unfinished node. Skip stale heap entries.</li><li>Relax each outgoing edge: if <code>dist[u]+w &lt; dist[v]</code>, update and push.</li></ol>
+<p>This implementation treats edges as directed. Duplicate an edge both ways for an undirected graph. Negative weights need Bellman-Ford.</p>
+<pre><code class="language-go">func Dijkstra(n int, edges [][]int, src int) []int {
+	adj := make([][][2]int, n)
+	for _, e := range edges {
+		adj[e[0]] = append(adj[e[0]], [2]int{e[1], e[2]})
+	}
+	dist := make([]int, n)
+	for i := range dist {
+		dist[i] = math.MaxInt
+	}
+	dist[src] = 0
+	h := &amp;dijkHeap{{node: src, dist: 0}}
+	for h.Len() &gt; 0 {
+		cur := heap.Pop(h).(dijkItem)
+		if cur.dist != dist[cur.node] {
+			continue
+		}
+		for _, edge := range adj[cur.node] {
+			if cand := cur.dist + edge[1]; cand &lt; dist[edge[0]] {
+				dist[edge[0]] = cand
+				heap.Push(h, dijkItem{node: edge[0], dist: cand})
+			}
+		}
+	}
+	for i, d := range dist {
+		if d == math.MaxInt {
+			dist[i] = -1
+		}
+	}
+	return dist
+}</code></pre>
+<p>Time O((n+m) log n) with a binary heap.</p>
+<hr>
+<h2 id="l19-topological-sort">L19. Topological Sort</h2>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=yLjF-BVXefQ">L19. Topological Sort</a> (59:38)</li><li>Ordering of a <strong>DAG</strong> so every edge <code>u → v</code> has <code>u</code> before <code>v</code>. Cycle ⇒ no order.</li></ul>
+<h3 id="1-dfs-stack">1. DFS + stack</h3>
+<p>Visit neighbors first, then push <code>u</code>. Reverse the stack at the end. A back edge to a <strong>gray</strong> node is a cycle.</p>
+<pre><code class="language-go">func TopoSortDFS(n int, edges [][]int) []int {
+	const white, gray, black = 0, 1, 2
+	adj := make([][]int, n)
+	for _, e := range edges {
+		adj[e[0]] = append(adj[e[0]], e[1])
+	}
+	state := make([]int, n)
+	out := []int{}
+	cycle := false
+	var dfs func(int)
+	dfs = func(u int) {
+		state[u] = gray
+		for _, v := range adj[u] {
+			if state[v] == gray {
+				cycle = true
+				return
+			}
+			if state[v] == white {
+				dfs(v)
+			}
+		}
+		state[u] = black
+		out = append(out, u)
+	}
+	for i := 0; i &lt; n; i++ {
+		if state[i] == white {
+			dfs(i)
+		}
+	}
+	if cycle {
+		return nil
+	}
+	for i, j := 0, len(out)-1; i &lt; j; i, j = i+1, j-1 {
+		out[i], out[j] = out[j], out[i]
+	}
+	return out
+}</code></pre>
+<h3 id="2-kahns-algorithm-bfs">2. Kahn’s algorithm (BFS)</h3>
+<p>Start from indegree 0. Each processed node decrements its neighbors. If you cannot process all nodes, there is a cycle.</p>
+<pre><code class="language-go">func TopoSortKahn(n int, edges [][]int) []int {
+	indeg := make([]int, n)
+	adj := make([][]int, n)
+	for _, e := range edges {
+		adj[e[0]] = append(adj[e[0]], e[1])
+		indeg[e[1]]++
+	}
+	queue := []int{}
+	for i, d := range indeg {
+		if d == 0 {
+			queue = append(queue, i)
+		}
+	}
+	out := []int{}
+	for head := 0; head &lt; len(queue); head++ {
+		u := queue[head]
+		out = append(out, u)
+		for _, v := range adj[u] {
+			indeg[v]--
+			if indeg[v] == 0 {
+				queue = append(queue, v)
+			}
+		}
+	}
+	if len(out) != n {
+		return nil
+	}
+	return out
+}</code></pre>
+<h3 id="3-course-schedule">3. Course schedule</h3>
+<p><code>prerequisites[i] = [course, pre]</code> means <code>pre → course</code>. Possible iff a topo order exists.</p>
+<p><code>numCourses=2</code>, <code>[[1,0]]</code> → true. <code>[[1,0],[0,1]]</code> → false.</p>
+<pre><code class="language-go">func CanFinish(numCourses int, prerequisites [][]int) bool {
+	edges := make([][]int, len(prerequisites))
+	for i, p := range prerequisites {
+		edges[i] = []int{p[1], p[0]}
+	}
+	return TopoSortKahn(numCourses, edges) != nil
+}</code></pre>
+    </main>
+  </div>
+</body>
+</html>

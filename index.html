@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>25 DSA Patterns — 25 DSA Patterns in Go</title>
+  <style>
+    :root {
+      --bg: #f6f4ef;
+      --panel: #fffdf8;
+      --ink: #1b1a17;
+      --muted: #5c574e;
+      --line: #e4ddd0;
+      --accent: #0f6b4c;
+      --code-bg: #1e2430;
+      --code-ink: #e8eef7;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: auto;
+      padding: 1.4rem 1.1rem 2rem;
+      background: #1e2430;
+      color: #e8eef7;
+    }
+    nav a { color: #d7e4da; text-decoration: none; }
+    nav a:hover { color: #fff; }
+    nav h1 { font-size: 1.05rem; margin: 0 0 .4rem; }
+    nav p { color: #a8b3c4; font-size: .85rem; margin: 0 0 1.1rem; }
+    nav .page {
+      display: block;
+      padding: .45rem .55rem;
+      border-radius: 8px;
+      margin-bottom: .25rem;
+    }
+    nav .page.active { background: #2d384c; color: #fff; }
+    nav .toc { margin: .7rem 0 1rem .4rem; padding: 0; list-style: none; }
+    nav .toc a { display: block; font-size: .8rem; color: #b7c2d3; padding: .18rem 0; }
+    main { padding: 2rem 2.4rem 4rem; max-width: 920px; }
+    main h1 { font-size: 2rem; margin-top: 0; }
+    main h2 { margin-top: 2.2rem; padding-top: .4rem; border-top: 1px solid var(--line); }
+    main h3 { margin-top: 1.6rem; color: var(--accent); }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: .95rem; }
+    th, td { border: 1px solid var(--line); padding: .45rem .6rem; text-align: left; vertical-align: top; }
+    th { background: #efe8da; }
+    pre {
+      background: var(--code-bg);
+      color: var(--code-ink);
+      padding: 1rem 1.1rem;
+      overflow-x: auto;
+      border-radius: 10px;
+      font-size: .86rem;
+      line-height: 1.45;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .88em;
+    }
+    :not(pre) > code {
+      background: #efe8da;
+      padding: .1rem .35rem;
+      border-radius: 4px;
+    }
+    a { color: var(--accent); }
+    hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
+    .banner {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: .8rem 1rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 860px) {
+      .layout { grid-template-columns: 1fr; }
+      nav { position: relative; height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav>
+      <h1>25 DSA Patterns</h1>
+      <p>Go study notes from the Itsruntym playlist.</p>
+      <a class="page active" href="index.html">25 DSA Patterns</a><a class="page" href="linear.html">L1–L6 Linear</a><a class="page" href="structures.html">L7–L12 Data Structures</a><a class="page" href="trees.html">L14–L19 Trees &amp; Graphs</a><a class="page" href="advanced.html">L20–L25 Advanced</a>
+    </nav>
+    <main>
+      <div class="banner">Local site for the markdown notes. Code lives in the Go files next to these pages.</div>
+      <h1 id="25-dsa-patterns-go-study-notes">25 DSA Patterns — Go Study Notes</h1>
+<p>Playlist: <a href="https://www.youtube.com/playlist?list=PLh_njhZ_MgInazcDWlX1RlpwIIYACSyIJ">Master DSA using 25 DSA PATTERNS</a> by <a href="https://www.youtube.com/@Itsruntym">Itsruntym</a>.</p>
+<p>Every chapter in each video now has its own explanation, dry run, and Go implementation — not just one featured problem.</p>
+<table><thead><tr><th>Notes</th><th>What is covered</th></tr></thead><tbody><tr><td><a href="linear.html">01_linear_patterns.md</a></td><td>L1–L6 every two-pointer, cycle, window, prefix, interval, and binary-search problem</td></tr><tr><td><a href="structures.html">02_data_structures.md</a></td><td>L7 all five sorts plus heap sort; hashmap internals; stack/queue/heap/k-way parts</td></tr><tr><td><a href="trees.html">03_trees_graphs.md</a></td><td>L14–L19 traversals, DFS/BFS problems, matrix/list, Dijkstra, DFS topo + Kahn</td></tr><tr><td><a href="advanced.html">04_advanced.md</a></td><td>L20–L25 trie, greedy trio, all 3 DP styles, backtracking, every bit problem</td></tr></tbody></table>
+<p>Compilable code:</p>
+<table><thead><tr><th>File</th><th>Contents</th></tr></thead><tbody><tr><td><code>solutions.go</code></td><td>shared types plus the original featured functions</td></tr><tr><td><code>l01_l06_more.go</code></td><td>remaining L1–L6 problems</td></tr><tr><td><code>l07_sorting.go</code></td><td>bubble, selection, insertion, quick (merge is in <code>solutions.go</code>)</td></tr><tr><td><code>l08_l12_more.go</code></td><td>hashmap, stack, two-stack queue, teaching heap, k-way extras</td></tr><tr><td><code>l14_l25_more.go</code></td><td>traversals, graph reps, topo, 3 DP styles, backtracking extras</td></tr></tbody></table>
+<pre><code class="language-sh">cd dsa_25_patterns_go
+go test -v .</code></pre>
+<p>Browse the notes locally:</p>
+<pre><code class="language-sh">python3 site/build.py
+python3 -m http.server 8765 --directory site</code></pre>
+<p>Then open <a href="http://127.0.0.1:8765/">http://127.0.0.1:8765/</a>.</p>
+<p>The playlist has 24 videos. Lessons 11 and 13 share one heap/top-k video. Union Find appears in the creator’s written list but has no dedicated video here.</p>
+    </main>
+  </div>
+</body>
+</html>

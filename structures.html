@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>L7–L12 Data Structures — 25 DSA Patterns in Go</title>
+  <style>
+    :root {
+      --bg: #f6f4ef;
+      --panel: #fffdf8;
+      --ink: #1b1a17;
+      --muted: #5c574e;
+      --line: #e4ddd0;
+      --accent: #0f6b4c;
+      --code-bg: #1e2430;
+      --code-ink: #e8eef7;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: auto;
+      padding: 1.4rem 1.1rem 2rem;
+      background: #1e2430;
+      color: #e8eef7;
+    }
+    nav a { color: #d7e4da; text-decoration: none; }
+    nav a:hover { color: #fff; }
+    nav h1 { font-size: 1.05rem; margin: 0 0 .4rem; }
+    nav p { color: #a8b3c4; font-size: .85rem; margin: 0 0 1.1rem; }
+    nav .page {
+      display: block;
+      padding: .45rem .55rem;
+      border-radius: 8px;
+      margin-bottom: .25rem;
+    }
+    nav .page.active { background: #2d384c; color: #fff; }
+    nav .toc { margin: .7rem 0 1rem .4rem; padding: 0; list-style: none; }
+    nav .toc a { display: block; font-size: .8rem; color: #b7c2d3; padding: .18rem 0; }
+    main { padding: 2rem 2.4rem 4rem; max-width: 920px; }
+    main h1 { font-size: 2rem; margin-top: 0; }
+    main h2 { margin-top: 2.2rem; padding-top: .4rem; border-top: 1px solid var(--line); }
+    main h3 { margin-top: 1.6rem; color: var(--accent); }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: .95rem; }
+    th, td { border: 1px solid var(--line); padding: .45rem .6rem; text-align: left; vertical-align: top; }
+    th { background: #efe8da; }
+    pre {
+      background: var(--code-bg);
+      color: var(--code-ink);
+      padding: 1rem 1.1rem;
+      overflow-x: auto;
+      border-radius: 10px;
+      font-size: .86rem;
+      line-height: 1.45;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .88em;
+    }
+    :not(pre) > code {
+      background: #efe8da;
+      padding: .1rem .35rem;
+      border-radius: 4px;
+    }
+    a { color: var(--accent); }
+    hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
+    .banner {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: .8rem 1rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 860px) {
+      .layout { grid-template-columns: 1fr; }
+      nav { position: relative; height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav>
+      <h1>25 DSA Patterns</h1>
+      <p>Go study notes from the Itsruntym playlist.</p>
+      <a class="page" href="index.html">25 DSA Patterns</a><a class="page" href="linear.html">L1–L6 Linear</a><a class="page active" href="structures.html">L7–L12 Data Structures</a><ul class="toc"><li style="padding-left:0"><a href="#l7-all-sorting-algorithms">L7. All Sorting Algorithms</a></li><li style="padding-left:.9rem"><a href="#1-bubble-sort">1. Bubble sort</a></li><li style="padding-left:.9rem"><a href="#2-selection-sort">2. Selection sort</a></li><li style="padding-left:.9rem"><a href="#3-insertion-sort">3. Insertion sort</a></li><li style="padding-left:.9rem"><a href="#4-merge-sort">4. Merge sort</a></li><li style="padding-left:.9rem"><a href="#5-quick-sort-lomuto-last-element-is-pivot">5. Quick sort (Lomuto, last element is pivot)</a></li><li style="padding-left:0"><a href="#l8-hash-maps">L8. Hash Maps</a></li><li style="padding-left:.9rem"><a href="#1-internal-working-separate-chaining">1. Internal working — separate chaining</a></li><li style="padding-left:.9rem"><a href="#2-frequency-count">2. Frequency count</a></li><li style="padding-left:.9rem"><a href="#3-two-sum-unsorted">3. Two Sum (unsorted)</a></li><li style="padding-left:.9rem"><a href="#4-word-pattern">4. Word Pattern</a></li><li style="padding-left:.9rem"><a href="#5-valid-anagram">5. Valid Anagram</a></li><li style="padding-left:.9rem"><a href="#6-group-anagrams">6. Group Anagrams</a></li><li style="padding-left:0"><a href="#l9-stacks">L9. Stacks</a></li><li style="padding-left:.9rem"><a href="#1-valid-parentheses">1. Valid parentheses</a></li><li style="padding-left:.9rem"><a href="#2-next-greater-element-i">2. Next Greater Element I</a></li><li style="padding-left:.9rem"><a href="#3-simplify-path">3. Simplify path</a></li><li style="padding-left:0"><a href="#l10-queue">L10. Queue</a></li><li style="padding-left:.9rem"><a href="#1-queue-using-two-stacks">1. Queue using two stacks</a></li><li style="padding-left:.9rem"><a href="#2-binary-tree-level-order">2. Binary tree level order</a></li><li style="padding-left:.9rem"><a href="#3-kth-largest-size-k-min-heap">3. Kth largest — size-`k` min-heap</a></li><li style="padding-left:0"><a href="#l11-l13-heap-and-top-k">L11 &amp; L13. Heap and Top-K</a></li><li style="padding-left:.9rem"><a href="#1-heap-up-insert-and-heap-down-remove-root">1. Heap-up (insert) and heap-down (remove root)</a></li><li style="padding-left:.9rem"><a href="#2-heap-sort">2. Heap sort</a></li><li style="padding-left:.9rem"><a href="#3-top-k-frequent">3. Top K frequent</a></li><li style="padding-left:.9rem"><a href="#4-kth-smallest-in-a-sorted-matrix">4. Kth smallest in a sorted matrix</a></li><li style="padding-left:0"><a href="#l12-k-way-merge">L12. K-way Merge</a></li><li style="padding-left:.9rem"><a href="#1-merge-two-sorted-arrays">1. Merge two sorted arrays</a></li><li style="padding-left:.9rem"><a href="#2-merge-k-sorted-lists">2. Merge K sorted lists</a></li><li style="padding-left:.9rem"><a href="#3-k-pairs-with-smallest-sums">3. K pairs with smallest sums</a></li></ul><a class="page" href="trees.html">L14–L19 Trees &amp; Graphs</a><a class="page" href="advanced.html">L20–L25 Advanced</a>
+    </nav>
+    <main>
+      <div class="banner">Local site for the markdown notes. Code lives in the Go files next to these pages.</div>
+      <h1 id="l7l12-data-structures">L7–L12 Data Structures</h1>
+<hr>
+<h2 id="l7-all-sorting-algorithms">L7. All Sorting Algorithms</h2>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=-X-liHnd_LA">L7. All Sorting Algorithms</a> (1:07:21)</li><li>The lesson implements the sorts themselves. Code is in <code>l07_sorting.go</code>.</li></ul>
+<table><thead><tr><th>Sort</th><th>Best</th><th>Average</th><th>Worst</th><th>Extra space</th><th>Stable?</th></tr></thead><tbody><tr><td>Bubble</td><td>O(n) with swap flag</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>yes</td></tr><tr><td>Selection</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>no</td></tr><tr><td>Insertion</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>yes</td></tr><tr><td>Merge</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td><td>yes if <code>&lt;=</code></td></tr><tr><td>Quick</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n²)</td><td>O(log n) stack</td><td>no</td></tr></tbody></table>
+<h3 id="1-bubble-sort">1. Bubble sort</h3>
+<p>Walk adjacent pairs. After pass <code>i</code>, the largest remaining value is at the end. If a pass makes no swaps, stop.</p>
+<p>Video array: <code>[5,6,1,3]</code></p>
+<ol><li><code>5,6</code> already ordered. <code>6,1</code> swap → <code>[5,1,6,3]</code>. <code>6,3</code> swap → <code>[5,1,3,6]</code>.</li><li><code>5,1</code> swap → <code>[1,5,3,6]</code>. <code>5,3</code> swap → <code>[1,3,5,6]</code>.</li><li><code>1,3</code> already ordered. No more inversions.</li></ol>
+<pre><code class="language-go">func BubbleSort(nums []int) {
+	for end := len(nums) - 1; end &gt; 0; end-- {
+		swapped := false
+		for i := 0; i &lt; end; i++ {
+			if nums[i] &gt; nums[i+1] {
+				nums[i], nums[i+1] = nums[i+1], nums[i]
+				swapped = true
+			}
+		}
+		if !swapped {
+			return
+		}
+	}
+}</code></pre>
+<h3 id="2-selection-sort">2. Selection sort</h3>
+<p>For each index <code>i</code>, find the minimum in <code>nums[i:]</code> and swap it into place. Always n-1 + n-2 + … scans, so always O(n²).</p>
+<p>Video array: <code>[64,25,12,22,11]</code></p>
+<table><thead><tr><th>i</th><th>min of suffix</th><th>after swap</th></tr></thead><tbody><tr><td>0</td><td>11</td><td><code>[11,25,12,22,64]</code></td></tr><tr><td>1</td><td>12</td><td><code>[11,12,25,22,64]</code></td></tr><tr><td>2</td><td>22</td><td><code>[11,12,22,25,64]</code></td></tr><tr><td>3</td><td>25</td><td><code>[11,12,22,25,64]</code></td></tr></tbody></table>
+<pre><code class="language-go">func SelectionSort(nums []int) {
+	for i := 0; i &lt; len(nums); i++ {
+		minIdx := i
+		for j := i + 1; j &lt; len(nums); j++ {
+			if nums[j] &lt; nums[minIdx] {
+				minIdx = j
+			}
+		}
+		nums[i], nums[minIdx] = nums[minIdx], nums[i]
+	}
+}</code></pre>
+<h3 id="3-insertion-sort">3. Insertion sort</h3>
+<p><code>nums[:i]</code> is already sorted. Pull <code>key = nums[i]</code> left until it sits in order. Good on nearly sorted input.</p>
+<p>Video array: <code>[12,11,13,5,6]</code></p>
+<table><thead><tr><th>key</th><th>sorted prefix after insert</th></tr></thead><tbody><tr><td>11</td><td><code>[11,12,13,5,6]</code></td></tr><tr><td>13</td><td><code>[11,12,13,5,6]</code></td></tr><tr><td>5</td><td><code>[5,11,12,13,6]</code></td></tr><tr><td>6</td><td><code>[5,6,11,12,13]</code></td></tr></tbody></table>
+<pre><code class="language-go">func InsertionSort(nums []int) {
+	for i := 1; i &lt; len(nums); i++ {
+		key := nums[i]
+		j := i - 1
+		for j &gt;= 0 &amp;&amp; nums[j] &gt; key {
+			nums[j+1] = nums[j]
+			j--
+		}
+		nums[j+1] = key
+	}
+}</code></pre>
+<h3 id="4-merge-sort">4. Merge sort</h3>
+<p>Split until one element, then merge two sorted halves with two pointers. Reuse one temp slice.</p>
+<p>Video array: <code>[38,27,43,10]</code></p>
+<pre><code class="language-text">[38,27,43,10]
+  [38,27]     [43,10]
+ [38] [27]   [43] [10]
+  [27,38]     [10,43]
+    [10,27,38,43]</code></pre>
+<p><code>&lt;=</code> on the left half keeps equal keys in original order (stable).</p>
+<pre><code class="language-go">func MergeSort(nums []int) {
+	tmp := make([]int, len(nums))
+	var sortRange func(lo, hi int)
+	sortRange = func(lo, hi int) {
+		if hi-lo &lt;= 1 {
+			return
+		}
+		mid := lo + (hi-lo)/2
+		sortRange(lo, mid)
+		sortRange(mid, hi)
+		i, j, k := lo, mid, lo
+		for i &lt; mid &amp;&amp; j &lt; hi {
+			if nums[i] &lt;= nums[j] {
+				tmp[k] = nums[i]
+				i++
+			} else {
+				tmp[k] = nums[j]
+				j++
+			}
+			k++
+		}
+		copy(tmp[k:hi], nums[i:mid])
+		copy(tmp[k+(mid-i):hi], nums[j:hi])
+		copy(nums[lo:hi], tmp[lo:hi])
+	}
+	sortRange(0, len(nums))
+}</code></pre>
+<h3 id="5-quick-sort-lomuto-last-element-is-pivot">5. Quick sort (Lomuto, last element is pivot)</h3>
+<p>The video partitions around a pivot: smaller values left, larger values right, then recurse. Walkthrough: <code>[10,80,30,90,40]</code>, pivot <code>40</code>.</p>
+<ol><li>Scan <code>10,80,30,90</code>. Values <code>&lt;= 40</code> are packed to the front: <code>10</code>, then <code>30</code>.</li><li>Swap pivot into the hole → <code>[10,30,40,90,80]</code>.</li><li>Recurse on <code>[10,30]</code> and <code>[90,80]</code>.</li></ol>
+<p>Worst case is already-sorted input with this pivot rule (O(n²)). Average is O(n log n).</p>
+<pre><code class="language-go">func QuickSort(nums []int) {
+	quickSortRange(nums, 0, len(nums)-1)
+}
+
+func lomutoPartition(nums []int, lo, hi int) int {
+	pivot := nums[hi]
+	store := lo
+	for i := lo; i &lt; hi; i++ {
+		if nums[i] &lt;= pivot {
+			nums[store], nums[i] = nums[i], nums[store]
+			store++
+		}
+	}
+	nums[store], nums[hi] = nums[hi], nums[store]
+	return store
+}</code></pre>
+<hr>
+<h2 id="l8-hash-maps">L8. Hash Maps</h2>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=gl2lg6HnB6E">L8. HashMaps</a> (52:29)</li><li>Hash the key, map it to a bucket, walk the chain. Same key updates; different keys that collide share a bucket.</li></ul>
+<h3 id="1-internal-working-separate-chaining">1. Internal working — separate chaining</h3>
+<p>Video example: <code>John→25</code>, <code>Tom→30</code>, then update <code>John→40</code>.</p>
+<pre><code class="language-go">type ChainHashMap struct {
+	buckets []*chainEntry
+}
+
+func (m *ChainHashMap) Put(key, value string) {
+	i := m.bucket(key)
+	for e := m.buckets[i]; e != nil; e = e.next {
+		if e.key == key {
+			e.value = value // update, do not insert a second John
+			return
+		}
+	}
+	m.buckets[i] = &amp;chainEntry{key: key, value: value, next: m.buckets[i]}
+}</code></pre>
+<p>Average get/put is O(1). A bad hash or many collisions degrades to O(n).</p>
+<h3 id="2-frequency-count">2. Frequency count</h3>
+<p><code>&quot;abcabc&quot;</code> → <code>a:2 b:2 c:2</code>.</p>
+<pre><code class="language-go">func CharFrequency(s string) map[rune]int {
+	freq := map[rune]int{}
+	for _, ch := range s {
+		freq[ch]++
+	}
+	return freq
+}</code></pre>
+<h3 id="3-two-sum-unsorted">3. Two Sum (unsorted)</h3>
+<p>Look up <code>target-current</code> <strong>before</strong> storing the current index so one element is not used twice.</p>
+<pre><code class="language-go">func TwoSum(nums []int, target int) []int {
+	seen := map[int]int{}
+	for i, v := range nums {
+		if j, ok := seen[target-v]; ok {
+			return []int{j, i}
+		}
+		seen[v] = i
+	}
+	return nil
+}</code></pre>
+<h3 id="4-word-pattern">4. Word Pattern</h3>
+<p>Both directions must match. <code>abba</code> / <code>dog cat cat dog</code> is true. <code>abba</code> / <code>dog cat cat fish</code> is false. <code>abba</code> / <code>dog dog dog dog</code> is false (two letters, one word).</p>
+<pre><code class="language-go">func WordPattern(pattern, s string) bool {
+	words := strings.Fields(s)
+	if len(words) != len(pattern) {
+		return false
+	}
+	p2w := map[byte]string{}
+	w2p := map[string]byte{}
+	for i := 0; i &lt; len(pattern); i++ {
+		p, w := pattern[i], words[i]
+		if mapped, ok := p2w[p]; ok &amp;&amp; mapped != w {
+			return false
+		}
+		if mapped, ok := w2p[w]; ok &amp;&amp; mapped != p {
+			return false
+		}
+		p2w[p], w2p[w] = w, p
+	}
+	return true
+}</code></pre>
+<h3 id="5-valid-anagram">5. Valid Anagram</h3>
+<p><code>&quot;anagram&quot;</code> and <code>&quot;nagaram&quot;</code>. Increment for <code>s</code>, decrement for <code>t</code>. Every bucket must finish at 0.</p>
+<pre><code class="language-go">func IsAnagram(s, t string) bool {
+	if len(s) != len(t) {
+		return false
+	}
+	var count [26]int
+	for i := 0; i &lt; len(s); i++ {
+		count[s[i]-&#x27;a&#x27;]++
+		count[t[i]-&#x27;a&#x27;]--
+	}
+	for _, c := range count {
+		if c != 0 {
+			return false
+		}
+	}
+	return true
+}</code></pre>
+<h3 id="6-group-anagrams">6. Group Anagrams</h3>
+<p>Video uses the sorted word as the key and mentions a 26-count signature as the faster homework. The Go code uses the count key.</p>
+<p>Input: <code>eat tea tan ate nat bat</code> → <code>{ate,eat,tea}</code>, <code>{nat,tan}</code>, <code>{bat}</code>.</p>
+<pre><code class="language-go">func GroupAnagrams(strs []string) [][]string {
+	groups := map[[26]int][]string{}
+	for _, word := range strs {
+		var key [26]int
+		for i := 0; i &lt; len(word); i++ {
+			key[word[i]-&#x27;a&#x27;]++
+		}
+		groups[key] = append(groups[key], word)
+	}
+	out := make([][]string, 0, len(groups))
+	for _, g := range groups {
+		out = append(out, g)
+	}
+	return out
+}</code></pre>
+<hr>
+<h2 id="l9-stacks">L9. Stacks</h2>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=KhJD99--Sj4">L9. Stacks</a> (45:21)</li><li>LIFO. Use it for nesting, undo, or “nearest greater to the right”.</li></ul>
+<h3 id="1-valid-parentheses">1. Valid parentheses</h3>
+<p>Push an opener. A closer must match the top. The stack must be empty at the end.</p>
+<pre><code class="language-go">func IsValidParentheses(s string) bool {
+	pairs := map[byte]byte{&#x27;)&#x27;: &#x27;(&#x27;, &#x27;]&#x27;: &#x27;[&#x27;, &#x27;}&#x27;: &#x27;{&#x27;}
+	stack := []byte{}
+	for i := 0; i &lt; len(s); i++ {
+		if open, ok := pairs[s[i]]; ok {
+			if len(stack) == 0 || stack[len(stack)-1] != open {
+				return false
+			}
+			stack = stack[:len(stack)-1]
+			continue
+		}
+		stack = append(stack, s[i])
+	}
+	return len(stack) == 0
+}</code></pre>
+<h3 id="2-next-greater-element-i">2. Next Greater Element I</h3>
+<p><code>nums1=[4,1,2]</code>, <code>nums2=[1,3,4,2]</code> → <code>[-1,3,-1]</code>.</p>
+<p>Scan <code>nums2</code> left to right. Keep a <strong>decreasing</strong> stack. When the current value is larger, it is the next greater of every popped value. Leftovers map to <code>-1</code>.</p>
+<pre><code class="language-go">func NextGreaterElement(nums1, nums2 []int) []int {
+	next := map[int]int{}
+	stack := []int{}
+	for _, x := range nums2 {
+		for len(stack) &gt; 0 &amp;&amp; stack[len(stack)-1] &lt; x {
+			next[stack[len(stack)-1]] = x
+			stack = stack[:len(stack)-1]
+		}
+		stack = append(stack, x)
+	}
+	for _, leftover := range stack {
+		next[leftover] = -1
+	}
+	out := make([]int, len(nums1))
+	for i, v := range nums1 {
+		out[i] = next[v]
+	}
+	return out
+}</code></pre>
+<h3 id="3-simplify-path">3. Simplify path</h3>
+<p><code>/home/user/documents/../pictures</code> → <code>/home/user/pictures</code>.</p>
+<p>Split on <code>/</code>. Ignore empty and <code>.</code>. <code>..</code> pops if the stack is not empty (never climb above root).</p>
+<pre><code class="language-go">func SimplifyPath(path string) string {
+	stack := []string{}
+	for _, p := range strings.Split(path, &quot;/&quot;) {
+		switch p {
+		case &quot;&quot;, &quot;.&quot;:
+		case &quot;..&quot;:
+			if len(stack) &gt; 0 {
+				stack = stack[:len(stack)-1]
+			}
+		default:
+			stack = append(stack, p)
+		}
+	}
+	return &quot;/&quot; + strings.Join(stack, &quot;/&quot;)
+}</code></pre>
+<hr>
+<h2 id="l10-queue">L10. Queue</h2>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=JA5fN1VxIW4">L10. Queue &amp; Types</a> (36:41)</li><li>FIFO. Variants: simple, circular, deque, priority queue.</li></ul>
+<h3 id="1-queue-using-two-stacks">1. Queue using two stacks</h3>
+<p>Push onto <code>in</code>. Pop/peek from <code>out</code>. Transfer <code>in → out</code> only when <code>out</code> is empty, so older values stay in front.</p>
+<p>Sequence: push <code>10,11,12</code>, pop <code>10</code>, then later push <code>14</code>.</p>
+<pre><code class="language-go">type MyQueue struct{ in, out []int }
+
+func (q *MyQueue) Push(x int) { q.in = append(q.in, x) }
+
+func (q *MyQueue) shift() {
+	if len(q.out) &gt; 0 {
+		return
+	}
+	for len(q.in) &gt; 0 {
+		n := len(q.in)
+		q.out = append(q.out, q.in[n-1])
+		q.in = q.in[:n-1]
+	}
+}
+
+func (q *MyQueue) Pop() int {
+	q.shift()
+	n := len(q.out)
+	x := q.out[n-1]
+	q.out = q.out[:n-1]
+	return x
+}</code></pre>
+<p>Amortized O(1) per operation.</p>
+<h3 id="2-binary-tree-level-order">2. Binary tree level order</h3>
+<p>Tree <code>3 / 9 20 / 15 7</code> → <code>[[3],[9,20],[15,7]]</code>. Capture the current queue length before enqueueing children.</p>
+<pre><code class="language-go">func LevelOrder(root *TreeNode) [][]int {
+	if root == nil {
+		return [][]int{}
+	}
+	queue := []*TreeNode{root}
+	var out [][]int
+	for head := 0; head &lt; len(queue); {
+		size := len(queue) - head
+		level := make([]int, 0, size)
+		for i := 0; i &lt; size; i++ {
+			node := queue[head]
+			head++
+			level = append(level, node.Val)
+			if node.Left != nil {
+				queue = append(queue, node.Left)
+			}
+			if node.Right != nil {
+				queue = append(queue, node.Right)
+			}
+		}
+		out = append(out, level)
+	}
+	return out
+}</code></pre>
+<h3 id="3-kth-largest-size-k-min-heap">3. Kth largest — size-<code>k</code> min-heap</h3>
+<p>Spoken example: second largest is <code>5</code> (array <code>[3,2,1,5,6,4]</code>, <code>k=2</code>). The heap root is the kth largest.</p>
+<pre><code class="language-go">func FindKthLargest(nums []int, k int) int {
+	h := minIntHeap(append([]int(nil), nums[:k]...))
+	heap.Init(&amp;h)
+	for _, n := range nums[k:] {
+		if n &gt; h[0] {
+			heap.Pop(&amp;h)
+			heap.Push(&amp;h, n)
+		}
+	}
+	return h[0]
+}</code></pre>
+<hr>
+<h2 id="l11-l13-heap-and-top-k">L11 &amp; L13. Heap and Top-K</h2>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=UCQ7QQZLbvU">L11 &amp; L13. Heap / Top K</a> (37:53)</li><li>A heap is a complete binary tree stored in an array.</li></ul>
+<p>Index math: left <code>2*i+1</code>, right <code>2*i+2</code>, parent <code>(i-1)/2</code>.</p>
+<h3 id="1-heap-up-insert-and-heap-down-remove-root">1. Heap-up (insert) and heap-down (remove root)</h3>
+<p>Video insert: push <code>2</code> into a min-heap <code>[1,3,6,5,9,8]</code> and swap it toward the root until the parent is smaller.</p>
+<p>Video remove: move the last leaf to the root, then swap down with the smaller child.</p>
+<pre><code class="language-go">func (h *IntMinHeap) Push(v int) {
+	h.data = append(h.data, v)
+	h.heapUp(len(h.data) - 1)
+}
+
+func (h *IntMinHeap) heapUp(i int) {
+	for i &gt; 0 {
+		parent := (i - 1) / 2
+		if h.data[i] &gt;= h.data[parent] {
+			return
+		}
+		h.data[i], h.data[parent] = h.data[parent], h.data[i]
+		i = parent
+	}
+}
+
+func (h *IntMinHeap) heapDown(i int) {
+	n := len(h.data)
+	for {
+		left, right, best := 2*i+1, 2*i+2, i
+		if left &lt; n &amp;&amp; h.data[left] &lt; h.data[best] {
+			best = left
+		}
+		if right &lt; n &amp;&amp; h.data[right] &lt; h.data[best] {
+			best = right
+		}
+		if best == i {
+			return
+		}
+		h.data[i], h.data[best] = h.data[best], h.data[i]
+		i = best
+	}
+}</code></pre>
+<h3 id="2-heap-sort">2. Heap sort</h3>
+<p>Build a max-heap, then swap the root to the end and heap-down the reduced prefix. Time O(n log n), extra space O(1).</p>
+<pre><code class="language-go">func HeapSort(nums []int) {
+	n := len(nums)
+	for i := n/2 - 1; i &gt;= 0; i-- {
+		siftDownMax(nums, n, i)
+	}
+	for end := n - 1; end &gt; 0; end-- {
+		nums[0], nums[end] = nums[end], nums[0]
+		siftDownMax(nums, end, 0)
+	}
+}</code></pre>
+<h3 id="3-top-k-frequent">3. Top K frequent</h3>
+<p><code>[1,1,1,2,2,3]</code>, <code>k=2</code> → <code>{1,2}</code>. Count frequencies, keep a min-heap of size <code>k</code> ordered by frequency.</p>
+<pre><code class="language-go">func TopKFrequent(nums []int, k int) []int { /* see solutions.go */ }</code></pre>
+<h3 id="4-kth-smallest-in-a-sorted-matrix">4. Kth smallest in a sorted matrix</h3>
+<p>Video matrix <code>[[1,5,9],[10,11,13],[12,13,15]]</code>. Push every cell into a size-<code>k</code> max-heap. The root is the kth smallest. For <code>k=8</code> the answer is <code>13</code>.</p>
+<pre><code class="language-go">func KthSmallestMatrix(matrix [][]int, k int) int {
+	h := maxIntHeap{}
+	for _, row := range matrix {
+		for _, v := range row {
+			heap.Push(&amp;h, v)
+			if h.Len() &gt; k {
+				heap.Pop(&amp;h)
+			}
+		}
+	}
+	return h[0]
+}</code></pre>
+<hr>
+<h2 id="l12-k-way-merge">L12. K-way Merge</h2>
+<ul><li>Video: <a href="https://www.youtube.com/watch?v=ndjnm6s9ZDE">L12. K-way Merge</a> (43:40)</li><li>Each source is already sorted. Only the current head of each source can be the next global minimum.</li></ul>
+<h3 id="1-merge-two-sorted-arrays">1. Merge two sorted arrays</h3>
+<p><code>[1,2,3]</code> and <code>[2,4,5]</code> → <code>[1,2,2,3,4,5]</code>. Two pointers, take the smaller head.</p>
+<pre><code class="language-go">func MergeTwoSorted(a, b []int) []int {
+	out := make([]int, 0, len(a)+len(b))
+	i, j := 0, 0
+	for i &lt; len(a) &amp;&amp; j &lt; len(b) {
+		if a[i] &lt;= b[j] {
+			out = append(out, a[i])
+			i++
+		} else {
+			out = append(out, b[j])
+			j++
+		}
+	}
+	out = append(out, a[i:]...)
+	out = append(out, b[j:]...)
+	return out
+}</code></pre>
+<h3 id="2-merge-k-sorted-lists">2. Merge K sorted lists</h3>
+<p>Lists <code>[1,4,5]</code>, <code>[1,3,4]</code>, <code>[2,6]</code>. Min-heap of list heads. Pop the smallest, push its <code>Next</code>. Time O(N log k).</p>
+<pre><code class="language-go">func MergeKLists(lists []*ListNode) *ListNode { /* see solutions.go */ }</code></pre>
+<h3 id="3-k-pairs-with-smallest-sums">3. K pairs with smallest sums</h3>
+<p><code>nums1=[1,7,11]</code>, <code>nums2=[2,4,6]</code>, <code>k=3</code> → <code>[1,2],[1,4],[1,6]</code>.</p>
+<p>Seed <code>(i,0)</code> for the first <code>min(len(nums1),k)</code> rows. Pop the smallest sum, then push <code>(i, j+1)</code>.</p>
+<pre><code class="language-go">func KSmallestPairs(nums1, nums2 []int, k int) [][]int {
+	h := &amp;pairHeap{}
+	limit := len(nums1)
+	if k &lt; limit {
+		limit = k
+	}
+	for i := 0; i &lt; limit; i++ {
+		heap.Push(h, pairItem{i: i, j: 0, sum: nums1[i] + nums2[0]})
+	}
+	var out [][]int
+	for h.Len() &gt; 0 &amp;&amp; len(out) &lt; k {
+		cur := heap.Pop(h).(pairItem)
+		out = append(out, []int{nums1[cur.i], nums2[cur.j]})
+		if cur.j+1 &lt; len(nums2) {
+			heap.Push(h, pairItem{i: cur.i, j: cur.j + 1, sum: nums1[cur.i] + nums2[cur.j+1]})
+		}
+	}
+	return out
+}</code></pre>
+    </main>
+  </div>
+</body>
+</html>
